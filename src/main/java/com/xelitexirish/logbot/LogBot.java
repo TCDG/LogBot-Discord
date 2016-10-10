@@ -9,6 +9,8 @@ import net.dv8tion.jda.JDABuilder;
  */
 public class LogBot {
 
+    // https://discordapp.com/oauth2/authorize?client_id=235175172708106240&scope=bot&permissions=0
+
     public static JDA jda;
 
     public static String DISCORD_TOKEN;
