@@ -1,0 +1,29 @@
+apply plugin: 'java'
+
+repositories {
+    jcenter()
+}
+
+version = "1.0"
+//create a single Jar with all dependencies (just change the MainClass)
+task fatJar(type: Jar) {
+    manifest {
+        attributes 'Implementation-Title': 'LogBot',
+                'Implementation-Version': version,
+                'Main-Class': 'com.xelitexirish.logbot.LogBot'
+    }
+    baseName = project.name + '-all'
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+    with jar
+}
+
+dependencies {
+
+    compile 'net.dv8tion:JDA:2.2.1_353'
+
+    // https://mvnrepository.com/artifact/org.json/json
+    compile group: 'org.json', name: 'json', version: '20160212'
+
+    // https://mvnrepository.com/artifact/com.googlecode.json-simple/json-simple
+    compile group: 'com.googlecode.json-simple', name: 'json-simple', version: '1.1'
+}
