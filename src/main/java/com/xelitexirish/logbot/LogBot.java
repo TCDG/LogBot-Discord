@@ -11,14 +11,12 @@ public class LogBot {
 
     public static JDA jda;
 
-    public static boolean LOGIN_AS_USER = false;
     public static String DISCORD_TOKEN;
 
     public static void main(String[] args){
 
         if(args.length > 0){
-            LOGIN_AS_USER = Boolean.parseBoolean(args[0]);
-            DISCORD_TOKEN = args[1];
+            DISCORD_TOKEN = args[0];
         }else {
             System.out.println("Please enter a valid discord token and try again.");
             return;
