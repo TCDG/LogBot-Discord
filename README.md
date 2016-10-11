@@ -1,4 +1,4 @@
-<img src="icon.jpg" align="right" />
+<img src="icon.png" align="right" />
 # LogBot 
 Master Branch:     [![Awesome](https://travis-ci.org/TCDG/LogBot-Discord.svg?branch=master)](https://travis-ci.org/TCDG/LogBot-Discord)
 </br> 
