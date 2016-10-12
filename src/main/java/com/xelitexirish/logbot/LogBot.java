@@ -1,8 +1,13 @@
 package com.xelitexirish.logbot;
 
+import com.xelitexirish.logbot.commands.ICommand;
+import com.xelitexirish.logbot.commands.VipCommand;
 import com.xelitexirish.logbot.handlers.BotListener;
+import com.xelitexirish.logbot.utils.CommandParser;
 import net.dv8tion.jda.JDA;
 import net.dv8tion.jda.JDABuilder;
+
+import java.util.HashMap;
 
 /**
  * Created by XeliteXirish on 10/10/2016. www.xelitexirish.com
@@ -12,6 +17,8 @@ public class LogBot {
     // https://discordapp.com/oauth2/authorize?client_id=235175172708106240&scope=bot&permissions=0
 
     public static JDA jda;
+    public static final CommandParser parser = new CommandParser();
+    public static HashMap<String, ICommand> commands = new HashMap<>();
 
     public static String DISCORD_TOKEN;
 
@@ -31,5 +38,22 @@ public class LogBot {
             e.printStackTrace();
         }
         System.out.println("Logging...");
+    }
+
+    private static void registerCommands(){
+        commands.put("vip", new VipCommand());
+    }
+
+    public static void handleCommand(CommandParser.CommandContainer cmd){
+        if(commands.containsKey(cmd.invoke)){
+            boolean safe = commands.get(cmd.invoke).called(cmd.args, cmd.event);
+
+            if(safe){
+                commands.get(cmd.invoke).action(cmd.args, cmd.event);
+                commands.get(cmd.invoke).executed(safe, cmd.event);
+            }else {
+                commands.get(cmd.invoke).executed(safe, cmd.event);
+            }
+        }
     }
 }

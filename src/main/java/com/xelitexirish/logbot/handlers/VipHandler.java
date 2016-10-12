@@ -47,7 +47,7 @@ public class VipHandler {
         }
         writeVipList(guild);
     }
-    
+
     public static boolean isUserVip(Guild guild, User user){
         vipUsers.clear();
         loadVipListData(guild);
