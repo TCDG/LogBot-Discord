@@ -17,25 +17,13 @@ import java.util.List;
  */
 public class VipHandler {
 
-    private static File vipUsersFile = new File("/data/vip_users.json");
     private static final List<String> vipUsers = new ArrayList<String>();
-
-    public static void init(Guild guild) {
-        try {
-            if (!vipUsersFile.exists()) vipUsersFile.createNewFile();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        vipUsers.clear();
-        loadVipListData();
-    }
 
     public static void addUserToVip(Guild guild, User author, User vip) {
         String userId = vip.getId();
 
         vipUsers.clear();
-        loadVipListData();
+        loadVipListData(guild);
 
         if (vipUsers.contains(userId)) {
             author.getPrivateChannel().sendMessage("That user is already on the VIP list for this server.");
@@ -43,28 +31,33 @@ public class VipHandler {
             vipUsers.add(userId);
             author.getPrivateChannel().sendMessage(vip.getUsername() + " is now added to the vip list, this will only effect FUTURE logs.");
         }
-        writeVipList();
+        writeVipList(guild);
     }
 
-    public static void removeUserFromVip(User author, User vip) {
+    public static void removeUserFromVip(Guild guild, User author, User vip) {
         String userId = vip.getId();
 
         vipUsers.clear();
-        loadVipListData();
+        loadVipListData(guild);
 
         if (vipUsers.contains(userId)) {
             author.getPrivateChannel().sendMessage(vip.getUsername() + " is now removed from the vip list, this will only effect FUTURE logs.");
         } else {
             author.getPrivateChannel().sendMessage("That user is currently not on the VIP list.");
         }
-        writeVipList();
+        writeVipList(guild);
     }
 
-    private static void loadVipListData() {
+    private static void loadVipListData(Guild guild) {
         try {
+            // Get file for the server
+
+            File vipFile = FileHandler.getServerVipFile(guild);
+
             JSONParser parser = new JSONParser();
 
-            Object obj = parser.parse(new FileReader(vipUsersFile));
+            assert vipFile != null;
+            Object obj = parser.parse(new FileReader(vipFile));
             JSONObject jsonObject = (JSONObject) obj;
 
             JSONArray arrayVipUsers = (JSONArray) jsonObject.get("arrayVipUsers");
@@ -84,8 +77,11 @@ public class VipHandler {
         }
     }
 
-    private static void writeVipList() {
+    private static void writeVipList(Guild guild) {
         try {
+            // Get file for the server
+            File vipFile = FileHandler.getServerVipFile(guild);
+
             org.json.JSONObject jsonObject = new org.json.JSONObject();
             org.json.JSONArray jsonArrayVips = new org.json.JSONArray();
             jsonObject.put("arrayVipUsers", jsonArrayVips);
@@ -94,7 +90,8 @@ public class VipHandler {
                 jsonArrayVips.put(line);
             }
 
-            FileWriter fileWriter = new FileWriter(vipUsersFile);
+            assert vipFile != null;
+            FileWriter fileWriter = new FileWriter(vipFile);
             fileWriter.write(jsonObject.toString());
             fileWriter.flush();
             fileWriter.close();
