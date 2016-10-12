@@ -37,6 +37,9 @@ public class LogBot {
         }catch (Exception e){
             e.printStackTrace();
         }
+
+        registerCommands();
+
         System.out.println("Logging...");
     }
 
