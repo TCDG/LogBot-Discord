@@ -12,11 +12,12 @@ public class BotListener extends ListenerAdapter {
 
     @Override
     public void onMessageReceived(MessageReceivedEvent event) {
-        DiscordLogHandler.onMessageRecieved(event);
 
         // Commands
         if (event.getMessage().getContent().startsWith(Constants.COMMAND_PREFIX) && event.getMessage().getAuthor().getId() != event.getJDA().getSelfInfo().getId()) {
             LogBot.handleCommand(LogBot.parser.parse(event.getMessage().getContent().toLowerCase(), event));
         }
+
+        DiscordLogHandler.onMessageRecieved(event);
     }
 }

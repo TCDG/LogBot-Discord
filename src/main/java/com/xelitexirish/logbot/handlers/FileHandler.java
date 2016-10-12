@@ -12,16 +12,16 @@ import java.io.IOException;
 public class FileHandler {
 
     public static void createNewChannel(Guild guild, TextChannel textChannel){
-        String serverFolderName = "discord_servers/" + guild.getName() + " [" + guild.getId() + "]";
+        String serverFolderName = "discord_servers/" + guild.getName() + " [" + guild.getId() + "]" + "/channels/";
         File serverFolder = new File(serverFolderName);
         serverFolder.mkdirs();
 
         String channelFolderName = textChannel.getName() + " [" + textChannel.getId() + "].txt";
-        File channelFile = new File(serverFolder + "/channels/" + channelFolderName);
+        File channelFile = new File(serverFolder + "/" + channelFolderName);
 
         try {
-            if (!doesFilerExist(channelFile))
-            channelFile.createNewFile();
+            if (!doesFilerExist(channelFile)) channelFile.createNewFile();
+            System.out.println("Making folder for server:" + guild.getName());
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -34,8 +34,7 @@ public class FileHandler {
 
         File channelFile = new File(getServerFolderName(guild) + "/channels/" + channelFolderName);
 
-        if(doesFilerExist(channelFile)) return channelFile;
-        else {
+        if(!doesFilerExist(channelFile)){
             try {
                 channelFile.createNewFile();
             } catch (IOException e) {
@@ -43,6 +42,7 @@ public class FileHandler {
                 return null;
             }
         }
+        System.out.println("Getting log file");
         return channelFile;
     }
 
@@ -50,8 +50,8 @@ public class FileHandler {
         String serverFolderName = guild.getName() + " [" + guild.getId() + "]";
 
         File serverVipFile = new File("discord_servers/" + serverFolderName + "/data/" + "vipUsers.json");
-        if (doesFilerExist(serverVipFile)) return serverVipFile;
-        else{
+        if (!doesFilerExist(serverVipFile)){
+
             try {
                 serverVipFile.createNewFile();
             } catch (IOException e) {
@@ -79,8 +79,7 @@ public class FileHandler {
         return doesFilerExist(getLogFile(guild, channel));
     }
 
-    private static boolean doesFilerExist(File file){
-        if(file == null) return false;
-        return file.exists();
+    private static boolean doesFilerExist(File file) {
+        return file != null && file.exists();
     }
 }
