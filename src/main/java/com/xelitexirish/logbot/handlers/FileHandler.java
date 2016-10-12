@@ -47,9 +47,12 @@ public class FileHandler {
     }
 
     public static File getServerVipFile(Guild guild){
-        String serverFolderName = guild.getName() + " [" + guild.getId() + "]";
 
-        File serverVipFile = new File("discord_servers/" + serverFolderName + "/data/" + "vipUsers.json");
+        File serverDataDir = new File(getServerFolderName(guild) + "/data/");
+        serverDataDir.mkdirs();
+
+        File serverVipFile = new File(serverDataDir + "/" + "vip_users.json");
+
         if (!doesFilerExist(serverVipFile)){
 
             try {
