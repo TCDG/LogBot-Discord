@@ -35,7 +35,7 @@ public class VipCommand implements ICommand {
                         }
                     }
                     System.out.print("Adding user to VIP list for server: " + event.getGuild().getName());
-                    
+
                 } else if (args[0].equalsIgnoreCase("remove")) {
                     if (event.getMessage().getMentionedUsers().size() > 0) {
                         for (User user : event.getMessage().getMentionedUsers()) {

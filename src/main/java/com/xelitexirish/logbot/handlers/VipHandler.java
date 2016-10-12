@@ -97,7 +97,6 @@ public class VipHandler {
                 jsonArrayVips.put(line);
             }
 
-            assert vipFile != null;
             FileWriter fileWriter = new FileWriter(vipFile);
             fileWriter.write(jsonObject.toString());
             fileWriter.flush();
