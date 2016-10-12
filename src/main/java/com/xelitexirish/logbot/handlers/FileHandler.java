@@ -38,6 +38,22 @@ public class FileHandler {
         else return null;
     }
 
+    public static File getServerVipFile(Guild guild){
+        String serverFolderName = guild.getName() + " [" + guild.getId() + "]";
+
+        File serverVipFile = new File("discord_servers/" + serverFolderName + "/" + "vipUsers.json");
+        if (doesFilerExist(serverVipFile)) return serverVipFile;
+        else{
+            try {
+                serverVipFile.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+                return null;
+            }
+        }
+        return serverVipFile;
+    }
+
     private static boolean doesFilerExist(File file){
         return file.exists();
     }
