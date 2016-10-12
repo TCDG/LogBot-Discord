@@ -17,7 +17,7 @@ public class FileHandler {
         serverFolder.mkdirs();
 
         String channelFolderName = textChannel.getName() + " [" + textChannel.getId() + "].txt";
-        File channelFile = new File(serverFolder + "/" + channelFolderName);
+        File channelFile = new File(serverFolder + "/channels/" + channelFolderName);
 
         try {
             if (!doesFilerExist(channelFile))
@@ -29,19 +29,27 @@ public class FileHandler {
     }
 
     public static File getLogFile(Guild guild, TextChannel textChannel){
-        String serverFolderName = guild.getName() + " [" + guild.getId() + "]";
+
         String channelFolderName = textChannel.getName() + " [" + textChannel.getId() + "].txt";
 
-        File channelFile = new File("discord_servers/" + serverFolderName + "/" + channelFolderName);
+        File channelFile = new File(getServerFolderName(guild) + "/channels/" + channelFolderName);
 
         if(doesFilerExist(channelFile)) return channelFile;
-        else return null;
+        else {
+            try {
+                channelFile.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+                return null;
+            }
+        }
+        return channelFile;
     }
 
     public static File getServerVipFile(Guild guild){
         String serverFolderName = guild.getName() + " [" + guild.getId() + "]";
 
-        File serverVipFile = new File("discord_servers/" + serverFolderName + "/" + "vipUsers.json");
+        File serverVipFile = new File("discord_servers/" + serverFolderName + "/data/" + "vipUsers.json");
         if (doesFilerExist(serverVipFile)) return serverVipFile;
         else{
             try {
@@ -54,7 +62,25 @@ public class FileHandler {
         return serverVipFile;
     }
 
+    /**
+     * Helper Methods
+     */
+
+    private static String getServerFolderName(Guild guild){
+        String serverFolderName = guild.getName() + " [" + guild.getId() + "]";
+        return getBaseFileDir() + serverFolderName;
+    }
+
+    public static String getBaseFileDir(){
+        return "discord_servers/";
+    }
+
+    public static boolean doesChannelFileExist(Guild guild, TextChannel channel){
+        return doesFilerExist(getLogFile(guild, channel));
+    }
+
     private static boolean doesFilerExist(File file){
+        if(file == null) return false;
         return file.exists();
     }
 }
