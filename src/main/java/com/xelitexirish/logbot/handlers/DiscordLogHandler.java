@@ -6,17 +6,15 @@ import java.io.*;
 
 public class DiscordLogHandler {
 
-    public static void onMessageRecieved(MessageReceivedEvent event){
+    public static void onMessageRecieved(MessageReceivedEvent event) {
 
-        if(!FileHandler.doesChannelFileExist(event.getGuild(), event.getTextChannel())) {
-            FileHandler.createNewChannel(event.getGuild(), event.getTextChannel());
-        }
+        FileHandler.createNewChannel(event.getGuild(), event.getTextChannel());
         logMessage(event);
     }
 
-    private static void logMessage(MessageReceivedEvent event){
+    private static void logMessage(MessageReceivedEvent event) {
 
-        String logMessage = "{" + event.getMessage().getTime().toLocalDateTime() + "} " + "[" + event.getAuthor().getUsername() +  "] " + event.getMessage().getContent();
+        String logMessage = "{" + event.getMessage().getTime().toLocalDateTime() + "} " + "[" + event.getAuthor().getUsername() + "] " + event.getMessage().getContent();
 
         File logFile = FileHandler.getLogFile(event.getGuild(), event.getTextChannel());
 

@@ -41,6 +41,7 @@ public class VipHandler {
         loadVipListData(guild);
 
         if (vipUsers.contains(userId)) {
+            vipUsers.remove(userId);
             author.getPrivateChannel().sendMessage(vip.getUsername() + " is now removed from the vip list, this will only effect FUTURE logs.");
         } else {
             author.getPrivateChannel().sendMessage("That user is currently not on the VIP list.");
