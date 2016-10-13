@@ -20,28 +20,28 @@ public class VipHandler {
     private static final List<String> vipUsers = new ArrayList<String>();
 
     public static void addUserToVip(Guild guild, User author, User vip) {
-        String userId = vip.getId();
+        String userInfo = vip.getId() + ":" + vip.getUsername();
 
         vipUsers.clear();
         loadVipListData(guild);
 
-        if (vipUsers.contains(userId)) {
+        if (vipUsers.contains(userInfo)) {
             author.getPrivateChannel().sendMessage("That user is already on the VIP list for this server.");
         } else {
-            vipUsers.add(userId);
+            vipUsers.add(userInfo);
             author.getPrivateChannel().sendMessage(vip.getUsername() + " is now added to the vip list, this will only effect FUTURE logs.");
         }
         writeVipList(guild);
     }
 
     public static void removeUserFromVip(Guild guild, User author, User vip) {
-        String userId = vip.getId();
+        String userInfo = vip.getId() + ":" + vip.getUsername();
 
         vipUsers.clear();
         loadVipListData(guild);
 
-        if (vipUsers.contains(userId)) {
-            vipUsers.remove(userId);
+        if (vipUsers.contains(userInfo)) {
+            vipUsers.remove(userInfo);
             author.getPrivateChannel().sendMessage(vip.getUsername() + " is now removed from the vip list, this will only effect FUTURE logs.");
         } else {
             author.getPrivateChannel().sendMessage("That user is currently not on the VIP list.");
@@ -53,7 +53,7 @@ public class VipHandler {
         vipUsers.clear();
         loadVipListData(guild);
 
-        return vipUsers.contains(user.getId());
+        return vipUsers.contains(user.getId() + ":" + user.getUsername());
     }
 
     private static void loadVipListData(Guild guild) {
@@ -76,11 +76,7 @@ public class VipHandler {
                 }
             }
 
-        } catch (ParseException e) {
-            e.printStackTrace();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
+        } catch (ParseException | IOException e) {
             e.printStackTrace();
         }
     }

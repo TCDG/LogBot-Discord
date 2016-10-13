@@ -66,7 +66,7 @@ public class LogBot {
         for (Guild guild : jda.getGuilds()){
             totalMembers =+ guild.getUsers().size();
         }
-        
+
         return totalMembers;
     }
 }
