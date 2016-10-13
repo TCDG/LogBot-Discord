@@ -21,6 +21,10 @@ public class DiscordLogHandler {
 
         String logMessage = "{" + event.getMessage().getTime().toLocalDateTime() + "} " + "[" + event.getAuthor().getUsername() + "] " + event.getMessage().getContent();
 
+        if(VipHandler.isUserVip(event.getGuild(), event.getAuthor())){
+            logMessage = "{VIP}" + logMessage;
+        }
+
         File logFile = FileHandler.getLogFile(event.getGuild(), event.getTextChannel());
         assert logFile != null;
 
