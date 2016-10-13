@@ -64,7 +64,7 @@ public class VipHandler {
 
             JSONParser parser = new JSONParser();
 
-            assert vipFile != null;
+            assert vipFile != null && vipFile.length() != 0;
             Object obj = parser.parse(new FileReader(vipFile));
             JSONObject jsonObject = (JSONObject) obj;
 

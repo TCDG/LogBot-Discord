@@ -2,6 +2,7 @@ package com.xelitexirish.logbot.commands;
 
 import com.xelitexirish.logbot.handlers.PermissionHandler;
 import com.xelitexirish.logbot.handlers.VipHandler;
+import com.xelitexirish.logbot.utils.BotLogger;
 import com.xelitexirish.logbot.utils.MessageUtils;
 import net.dv8tion.jda.Permission;
 import net.dv8tion.jda.entities.User;
@@ -34,7 +35,7 @@ public class VipCommand implements ICommand {
                             event.getAuthor().getPrivateChannel().sendMessage("No user found with id: " + args[1] + " on server: " + event.getGuild().getName());
                         }
                     }
-                    System.out.print("Adding user to VIP list for server: " + event.getGuild().getName());
+                    BotLogger.info("Adding user to VIP list for server: " + event.getGuild().getName());
 
                 } else if (args[0].equalsIgnoreCase("remove")) {
                     if (event.getMessage().getMentionedUsers().size() > 0) {
@@ -50,7 +51,7 @@ public class VipCommand implements ICommand {
                         }
                     }
 
-                    System.out.print("Removing user from VIP list for server: " + event.getGuild().getName());
+                    BotLogger.info("Removing user from VIP list for server: " + event.getGuild().getName());
                 }
             }else {
                 event.getAuthor().getPrivateChannel().sendMessage(MessageUtils.getNoPermissionMsg(PermissionHandler.ADMIN_PERMISSION));

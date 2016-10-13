@@ -3,6 +3,7 @@ package com.xelitexirish.logbot;
 import com.xelitexirish.logbot.commands.ICommand;
 import com.xelitexirish.logbot.commands.VipCommand;
 import com.xelitexirish.logbot.handlers.BotListener;
+import com.xelitexirish.logbot.utils.BotLogger;
 import com.xelitexirish.logbot.utils.CommandParser;
 import net.dv8tion.jda.JDA;
 import net.dv8tion.jda.JDABuilder;
@@ -28,7 +29,7 @@ public class LogBot {
         if(args.length > 0){
             DISCORD_TOKEN = args[0];
         }else {
-            System.out.println("Please enter a valid discord token and try again.");
+            BotLogger.info("Please enter a valid discord token and try again.");
             return;
         }
 
@@ -41,7 +42,7 @@ public class LogBot {
 
         registerCommands();
 
-        System.out.println("Logging...");
+        BotLogger.info("Logging...");
     }
 
     private static void registerCommands(){

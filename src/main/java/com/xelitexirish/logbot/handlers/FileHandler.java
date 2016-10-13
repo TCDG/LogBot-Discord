@@ -1,5 +1,6 @@
 package com.xelitexirish.logbot.handlers;
 
+import com.xelitexirish.logbot.utils.BotLogger;
 import net.dv8tion.jda.entities.Guild;
 import net.dv8tion.jda.entities.TextChannel;
 
@@ -13,14 +14,14 @@ public class FileHandler {
 
     public static File getLogFile(Guild guild, TextChannel textChannel){
 
-        File serverLogFolder = getServerLogFolder(guild);
-
+        assert guild != null || textChannel != null;
         String channelFolderName = textChannel.getName() + " [" + textChannel.getId() + "].txt";
-        File channelFile = new File(serverLogFolder + "/" + channelFolderName);
+
+        File channelFile = new File(getServerLogFolder(guild) + "/" + channelFolderName);
 
         if(!doesFileExist(channelFile)){
             try {
-                System.out.println("Creating new channel folder: " + textChannel.getName() + " on server: " + guild.getName());
+                BotLogger.info("Creating new channel folder: " + textChannel.getName() + " on server: " + guild.getName());
                 channelFile.createNewFile();
             } catch (IOException e) {
                 e.printStackTrace();
@@ -31,15 +32,14 @@ public class FileHandler {
 
     public static File getServerVipFile(Guild guild){
 
-        File serverDataDir = new File(getServerFolderName(guild) + "/data/");
-        serverDataDir.mkdirs();
+        File serverDataDir = new File(getServerFolder(guild) + "/data/");
 
-        File serverVipFile = new File(serverDataDir + "/" + "vip_users.json");
+        File serverVipFile = new File(serverDataDir + "vip_users.json");
 
         if (!doesFileExist(serverVipFile)){
-
             try {
                 serverVipFile.createNewFile();
+                BotLogger.info("Creating new vip file for server: " + guild.getName());
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -52,15 +52,18 @@ public class FileHandler {
      */
 
     public static File getServerLogFolder(Guild guild){
-        String serverFolderName = getServerFolderName(guild) + "/channels/";
+        String serverFolderName = getServerFolder(guild) + "/channels/";
         File serverFolder = new File(serverFolderName);
         if(!serverFolder.exists()) serverFolder.mkdirs();
         return serverFolder;
     }
 
-    private static String getServerFolderName(Guild guild){
+    private static File getServerFolder(Guild guild){
+        assert guild != null;
         String serverFolderName = guild.getName() + " [" + guild.getId() + "]";
-        return getBaseFileDir() + serverFolderName;
+        File serverFolder = new File(getBaseFileDir() + serverFolderName);
+        if (!serverFolder.exists()) serverFolder.mkdirs();
+        return serverFolder;
     }
 
     public static String getBaseFileDir(){
