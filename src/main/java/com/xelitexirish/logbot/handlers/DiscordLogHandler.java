@@ -8,7 +8,7 @@ public class DiscordLogHandler {
 
     public static void onMessageRecieved(MessageReceivedEvent event) {
 
-        FileHandler.createNewChannel(event.getGuild(), event.getTextChannel());
+        //FileHandler.createNewChannel(event.getGuild(), event.getTextChannel());
         logMessage(event);
     }
 

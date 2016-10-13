@@ -11,39 +11,21 @@ import java.io.IOException;
  */
 public class FileHandler {
 
-    public static void createNewChannel(Guild guild, TextChannel textChannel){
-        try {
-        String serverFolderName = "discord_servers/" + guild.getName() + " [" + guild.getId() + "]" + "/channels/";
-        File serverFolder = new File(serverFolderName);
-        serverFolder.mkdirs();
-
-        String channelFolderName = textChannel.getName() + " [" + textChannel.getId() + "].txt";
-        File channelFile = new File(serverFolder + "/" + channelFolderName);
-
-
-            if (!doesFilerExist(channelFile)) channelFile.createNewFile();
-            System.out.println("Making folder for server:" + guild.getName());
-
-        } catch (Exception e) {
-            System.out.println("Error here!!!!");
-        }
-    }
-
     public static File getLogFile(Guild guild, TextChannel textChannel){
 
+        File serverLogFolder = getServerLogFolder(guild);
+
         String channelFolderName = textChannel.getName() + " [" + textChannel.getId() + "].txt";
+        File channelFile = new File(serverLogFolder + "/" + channelFolderName);
 
-        File channelFile = new File(getServerFolderName(guild) + "/channels/" + channelFolderName);
-
-        if(!doesFilerExist(channelFile)){
+        if(!doesFileExist(channelFile)){
             try {
+                System.out.println("Creating new channel folder: " + textChannel.getName() + " on server: " + guild.getName());
                 channelFile.createNewFile();
             } catch (IOException e) {
                 e.printStackTrace();
-                return null;
             }
         }
-        System.out.println("Getting log file");
         return channelFile;
     }
 
@@ -54,13 +36,12 @@ public class FileHandler {
 
         File serverVipFile = new File(serverDataDir + "/" + "vip_users.json");
 
-        if (!doesFilerExist(serverVipFile)){
+        if (!doesFileExist(serverVipFile)){
 
             try {
                 serverVipFile.createNewFile();
             } catch (IOException e) {
                 e.printStackTrace();
-                return null;
             }
         }
         return serverVipFile;
@@ -69,6 +50,13 @@ public class FileHandler {
     /**
      * Helper Methods
      */
+
+    public static File getServerLogFolder(Guild guild){
+        String serverFolderName = getServerFolderName(guild) + "/channels/";
+        File serverFolder = new File(serverFolderName);
+        if(!serverFolder.exists()) serverFolder.mkdirs();
+        return serverFolder;
+    }
 
     private static String getServerFolderName(Guild guild){
         String serverFolderName = guild.getName() + " [" + guild.getId() + "]";
@@ -79,7 +67,7 @@ public class FileHandler {
         return "discord_servers/";
     }
 
-    private static boolean doesFilerExist(File file) {
+    private static boolean doesFileExist(File file) {
         if (file != null){
             boolean exists = file.exists();
             return exists;
