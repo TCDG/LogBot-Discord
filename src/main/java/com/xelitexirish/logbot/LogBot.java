@@ -6,6 +6,7 @@ import com.xelitexirish.logbot.handlers.BotListener;
 import com.xelitexirish.logbot.utils.CommandParser;
 import net.dv8tion.jda.JDA;
 import net.dv8tion.jda.JDABuilder;
+import net.dv8tion.jda.entities.Guild;
 
 import java.util.HashMap;
 
@@ -33,7 +34,7 @@ public class LogBot {
 
         try {
             jda = new JDABuilder().setBotToken(DISCORD_TOKEN).setAutoReconnect(true).addListener(new BotListener()).buildBlocking();
-            jda.getAccountManager().setGame("Logging everything...");
+            jda.getAccountManager().setGame("Currently logging: " + getTotalMembers() + " members!");
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -58,5 +59,14 @@ public class LogBot {
                 commands.get(cmd.invoke).executed(safe, cmd.event);
             }
         }
+    }
+
+    private static int getTotalMembers() {
+        int totalMembers = 0;
+        for (Guild guild : jda.getGuilds()){
+            totalMembers =+ guild.getUsers().size();
+        }
+        
+        return totalMembers;
     }
 }
