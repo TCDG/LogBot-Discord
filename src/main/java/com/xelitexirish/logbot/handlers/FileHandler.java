@@ -14,7 +14,6 @@ public class FileHandler {
 
     public static File getLogFile(Guild guild, TextChannel textChannel){
 
-        assert guild != null || textChannel != null;
         String channelFolderName = textChannel.getName() + " [" + textChannel.getId() + "].txt";
 
         File channelFile = new File(getServerLogFolder(guild) + "/" + channelFolderName);
@@ -71,10 +70,6 @@ public class FileHandler {
     }
 
     private static boolean doesFileExist(File file) {
-        if (file != null){
-            boolean exists = file.exists();
-            return exists;
-        }
-        return false;
+        return file != null && file.exists();
     }
 }

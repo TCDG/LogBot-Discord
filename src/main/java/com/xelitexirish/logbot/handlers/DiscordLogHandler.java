@@ -1,9 +1,11 @@
 package com.xelitexirish.logbot.handlers;
 
-import com.xelitexirish.logbot.utils.BotLogger;
 import net.dv8tion.jda.events.message.MessageReceivedEvent;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 
 public class DiscordLogHandler {
 
