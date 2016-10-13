@@ -12,13 +12,13 @@ import java.io.IOException;
  */
 public class FileHandler {
 
-    public static File getLogFile(Guild guild, TextChannel textChannel){
+    public static File getLogFile(Guild guild, TextChannel textChannel) {
 
         String channelFolderName = textChannel.getName() + " [" + textChannel.getId() + "].txt";
 
         File channelFile = new File(getServerLogFolder(guild) + "/" + channelFolderName);
 
-        if(!doesFileExist(channelFile)){
+        if (!doesFileExist(channelFile)) {
             try {
                 BotLogger.info("Creating new channel folder: " + textChannel.getName() + " on server: " + guild.getName());
                 channelFile.createNewFile();
@@ -29,13 +29,11 @@ public class FileHandler {
         return channelFile;
     }
 
-    public static File getServerVipFile(Guild guild){
+    public static File getServerVipFile(Guild guild) {
 
-        File serverDataDir = new File(getServerFolder(guild) + "/data/");
+        File serverVipFile = new File(getServerDataFolder(guild) + "/" + "vip_users.json");
 
-        File serverVipFile = new File(serverDataDir + "vip_users.json");
-
-        if (!doesFileExist(serverVipFile)){
+        if (!doesFileExist(serverVipFile)) {
             try {
                 serverVipFile.createNewFile();
                 BotLogger.info("Creating new vip file for server: " + guild.getName());
@@ -50,14 +48,21 @@ public class FileHandler {
      * Helper Methods
      */
 
-    public static File getServerLogFolder(Guild guild){
+    public static File getServerLogFolder(Guild guild) {
         String serverFolderName = getServerFolder(guild) + "/channels/";
         File serverFolder = new File(serverFolderName);
-        if(!serverFolder.exists()) serverFolder.mkdirs();
+        if (!serverFolder.exists()) serverFolder.mkdirs();
         return serverFolder;
     }
 
-    private static File getServerFolder(Guild guild){
+    public static File getServerDataFolder(Guild guild) {
+        String serverFolderName = getServerFolder(guild) + "/data/";
+        File serverFolder = new File(serverFolderName);
+        if (!serverFolder.exists()) serverFolder.mkdirs();
+        return serverFolder;
+    }
+
+    private static File getServerFolder(Guild guild) {
         assert guild != null;
         String serverFolderName = guild.getName() + " [" + guild.getId() + "]";
         File serverFolder = new File(getBaseFileDir() + serverFolderName);
@@ -65,7 +70,7 @@ public class FileHandler {
         return serverFolder;
     }
 
-    public static String getBaseFileDir(){
+    public static String getBaseFileDir() {
         return "discord_servers/";
     }
 
