@@ -1,5 +1,6 @@
 package com.xelitexirish.logbot.utils;
 
+import net.dv8tion.jda.MessageBuilder;
 import net.dv8tion.jda.Permission;
 
 /**
@@ -12,7 +13,8 @@ public class MessageUtils {
     }
 
     public static String wrapStringInCodeBlock(String message) {
-        String newMessage = "```" + message + "```";
-        return newMessage;
+        MessageBuilder messageBuilder = new MessageBuilder();
+        messageBuilder.appendCodeBlock(message, "");
+        return messageBuilder.toString();
     }
 }

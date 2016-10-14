@@ -1,5 +1,6 @@
 package com.xelitexirish.logbot;
 
+import com.xelitexirish.logbot.commands.GetCommand;
 import com.xelitexirish.logbot.commands.HelpCommand;
 import com.xelitexirish.logbot.commands.ICommand;
 import com.xelitexirish.logbot.commands.VipCommand;
@@ -49,6 +50,7 @@ public class LogBot {
     private static void registerCommands(){
         commands.put("vip", new VipCommand());
         commands.put("help", new HelpCommand());
+        commands.put("get", new GetCommand());
     }
 
     public static void handleCommand(CommandParser.CommandContainer cmd){
