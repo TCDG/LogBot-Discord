@@ -59,13 +59,13 @@ public class VipHandler {
     private static void loadVipListData(Guild guild) {
         try {
             // Get file for the server
-
             File vipFile = FileHandler.getServerVipFile(guild);
 
             JSONParser parser = new JSONParser();
+            FileReader fileReader = new FileReader(vipFile);
 
-            assert vipFile != null && vipFile.length() > 0;
-            Object obj = parser.parse(new FileReader(vipFile));
+            assert vipFile.length() > 0;
+            Object obj = parser.parse(fileReader);
             JSONObject jsonObject = (JSONObject) obj;
 
             JSONArray arrayVipUsers = (JSONArray) jsonObject.get("arrayVipUsers");
