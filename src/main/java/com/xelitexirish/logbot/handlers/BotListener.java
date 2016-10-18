@@ -18,7 +18,7 @@ public class BotListener extends ListenerAdapter {
             LogBot.handleCommand(LogBot.parser.parse(event.getMessage().getContent().toLowerCase(), event));
         }
 
-        if (event.getMessage().isPrivate()){
+        if (!event.getAuthor().isBot() && event.getMessage().isPrivate()){
             event.getAuthor().getPrivateChannel().sendMessage("Sorry but I can't recognise any command or input you make unless its made in a guild! I need to make sure you have permission!");
         }
 
