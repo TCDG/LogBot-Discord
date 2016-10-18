@@ -23,7 +23,7 @@ public class FileHandler {
                 BotLogger.info("Creating new channel folder: " + textChannel.getName() + " on server: " + guild.getName());
                 channelFile.createNewFile();
             } catch (IOException e) {
-                e.printStackTrace();
+                BotLogger.debug("Wasn't able to create the server log file for the server: " + guild.getName());
             }
         }
         return channelFile;
@@ -38,7 +38,7 @@ public class FileHandler {
                 serverVipFile.createNewFile();
                 BotLogger.info("Creating new vip file for server: " + guild.getName());
             } catch (IOException e) {
-                e.printStackTrace();
+                BotLogger.debug("Wasn't able to create the vip file for the server: " + guild.getName());
             }
         }
         return serverVipFile;

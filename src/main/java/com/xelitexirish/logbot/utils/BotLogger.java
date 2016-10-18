@@ -12,4 +12,8 @@ public class BotLogger {
     public static void error(String log) {
         System.out.println("[Log Bot: ERROR] " + log);
     }
+
+    public static void debug(String log) {
+        System.out.println("[Log Bot: DEBUG] " + log);
+    }
 }
