@@ -9,6 +9,9 @@ import net.dv8tion.jda.JDABuilder;
 import net.dv8tion.jda.entities.Guild;
 
 import java.util.HashMap;
+import java.util.Random;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * Created by XeliteXirish on 10/10/2016. www.xelitexirish.com
@@ -28,18 +31,18 @@ public class LogBot {
         if(args.length > 0){
             DISCORD_TOKEN = args[0];
         }else {
-            BotLogger.info("Please enter a valid discord token and try again.");
+            BotLogger.error("Please enter a valid discord token and try again.");
             return;
         }
 
         try {
             jda = new JDABuilder().setBotToken(DISCORD_TOKEN).setAutoReconnect(true).addListener(new BotListener()).buildBlocking();
-            jda.getAccountManager().setGame("Currently logging: " + getTotalMembers() + " members!");
         }catch (Exception e){
             e.printStackTrace();
         }
 
         registerCommands();
+        handlePlayingMessage();
 
         BotLogger.info("Logging...");
     }
@@ -50,6 +53,21 @@ public class LogBot {
         commands.put("get", new GetCommand());
         commands.put("status", new StatusCommand());
     }
+
+    private static void handlePlayingMessage(){
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                String[] messages = {"Currently logging: " + getTotalMembers() + " members!", "I'm currently logging " + jda.getGuilds().size() + " servers!"};
+                jda.getAccountManager().setGame(messages[new Random().nextInt(messages.length)]);
+            }
+        }, 15000);
+    }
+
+    /**
+     * Helper Methods
+     */
 
     public static void handleCommand(CommandParser.CommandContainer cmd){
         if(commands.containsKey(cmd.invoke)){
