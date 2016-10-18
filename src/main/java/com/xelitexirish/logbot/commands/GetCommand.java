@@ -2,9 +2,11 @@ package com.xelitexirish.logbot.commands;
 
 import com.xelitexirish.logbot.handlers.FileHandler;
 import com.xelitexirish.logbot.handlers.PermissionHandler;
+import com.xelitexirish.logbot.utils.BotLogger;
 import com.xelitexirish.logbot.utils.MessageUtils;
 import net.dv8tion.jda.MessageBuilder;
 import net.dv8tion.jda.events.message.MessageReceivedEvent;
+import net.dv8tion.jda.exceptions.RateLimitedException;
 
 import java.io.File;
 
@@ -22,15 +24,41 @@ public class GetCommand implements ICommand {
     public void action(String[] args, MessageReceivedEvent event) {
 
         if (PermissionHandler.isUserAdmin(event.getGuild(), event.getAuthor())) {
-            File logFile = FileHandler.getLogFile(event.getGuild(), event.getTextChannel());
-            MessageBuilder messageBuilder = new MessageBuilder();
-            messageBuilder.appendString("This is the log file for channel: " + event.getTextChannel().getName());
+            try {
+                if (args.length > 0) {
 
-            event.getAuthor().getPrivateChannel().sendFile(logFile, messageBuilder.build());
+                    if (args[0].equalsIgnoreCase("all")) {
+                        File[] channelFiles = FileHandler.getAllServerFiles(event.getGuild());
+                        if (channelFiles != null) {
+                            event.getAuthor().getPrivateChannel().sendMessage("Here are the chats logs for the server: " + event.getGuild().getName());
 
+                            for (File file : channelFiles) {
+                                event.getAuthor().getPrivateChannel().sendFile(file, null);
+                            }
+                        } else {
+                            event.getAuthor().getPrivateChannel().sendMessage("Sorry but an error occurred or there was no chat logs found!");
+                        }
+
+                    } else {
+
+                        File logFile = FileHandler.getLogFile(event.getGuild(), event.getTextChannel());
+                        MessageBuilder messageBuilder = new MessageBuilder();
+                        messageBuilder.appendString("This is the log file for channel: " + event.getTextChannel().getName());
+
+                        event.getAuthor().getPrivateChannel().sendFile(logFile, messageBuilder.build());
+                    }
+                } else {
+                    sendHelpMessage(event);
+                }
+            }catch (RateLimitedException e){
+                BotLogger.error("I got rate limited sending chat logs for the server: " + event.getGuild().getName());
+            }
         } else {
             MessageUtils.getNoPermissionMsg(PermissionHandler.ADMIN_PERMISSION);
         }
+    }
+
+    private void sendHelpMessage(MessageReceivedEvent event) {
     }
 
     @Override
