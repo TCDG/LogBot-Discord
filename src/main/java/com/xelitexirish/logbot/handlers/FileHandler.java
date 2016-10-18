@@ -48,6 +48,12 @@ public class FileHandler {
      * Helper Methods
      */
 
+    public static File[] getAllServerFiles(Guild guild){
+        String serverFolderName = getServerFolder(guild) + "/channels/";
+        File serverFolder = new File(serverFolderName);
+        return serverFolder.listFiles();
+    }
+
     public static File getServerLogFolder(Guild guild) {
         String serverFolderName = getServerFolder(guild) + "/channels/";
         File serverFolder = new File(serverFolderName);
