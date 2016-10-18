@@ -35,6 +35,7 @@ public class GetCommand implements ICommand {
 
                             for (File file : channelFiles) {
                                 event.getAuthor().getPrivateChannel().sendFile(file, null);
+                                BotLogger.info(event.getAuthorName() + " asked for file: " + file.getName() + " on server: " + event.getGuild().getName());
                             }
                         } else {
                             event.getAuthor().getPrivateChannel().sendMessage("Sorry but an error occurred or there was no chat logs found!");
@@ -46,6 +47,9 @@ public class GetCommand implements ICommand {
                         for (TextChannel channel : event.getMessage().getMentionedChannels()) {
                             File channelFile = FileHandler.getLogFile(event.getGuild(), channel);
                             event.getAuthor().getPrivateChannel().sendFile(channelFile, null);
+
+
+                            BotLogger.info(event.getAuthorName() + " asked for file: " + channelFile.getName() + " on server: " + event.getGuild().getName());
                         }
 
                     } else {
@@ -55,6 +59,7 @@ public class GetCommand implements ICommand {
                         messageBuilder.appendString("This is the log file for channel: " + event.getTextChannel().getName());
 
                         event.getAuthor().getPrivateChannel().sendFile(logFile, messageBuilder.build());
+                        BotLogger.info(event.getAuthorName() + " asked for file: " + logFile.getName() + " on server: " + event.getGuild().getName());
                     }
                 } else {
                     sendHelpMessage(event);
