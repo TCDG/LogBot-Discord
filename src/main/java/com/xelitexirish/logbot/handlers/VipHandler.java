@@ -1,5 +1,6 @@
 package com.xelitexirish.logbot.handlers;
 
+import com.xelitexirish.logbot.utils.BotLogger;
 import net.dv8tion.jda.entities.Guild;
 import net.dv8tion.jda.entities.User;
 import org.json.simple.JSONArray;
@@ -77,7 +78,7 @@ public class VipHandler {
             }
 
         } catch (ParseException | IOException e) {
-            e.printStackTrace();
+            BotLogger.debug("I wasn't able to load the vip data for the server: " + guild.getName());
         }
     }
 
@@ -100,7 +101,7 @@ public class VipHandler {
             fileWriter.close();
 
         } catch (IOException e) {
-            e.printStackTrace();
+            BotLogger.debug("I wasn't able to load the vip data for the server: " + guild.getName());
         }
     }
 
