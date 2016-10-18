@@ -44,7 +44,7 @@ public class LogBot {
         registerCommands();
         handlePlayingMessage();
 
-        BotLogger.info("Logging...");
+        BotLogger.info("Started Logging...");
     }
 
     private static void registerCommands(){
