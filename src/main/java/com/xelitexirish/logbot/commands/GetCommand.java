@@ -5,6 +5,7 @@ import com.xelitexirish.logbot.handlers.PermissionHandler;
 import com.xelitexirish.logbot.utils.BotLogger;
 import com.xelitexirish.logbot.utils.MessageUtils;
 import net.dv8tion.jda.MessageBuilder;
+import net.dv8tion.jda.entities.TextChannel;
 import net.dv8tion.jda.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.exceptions.RateLimitedException;
 
@@ -39,6 +40,14 @@ public class GetCommand implements ICommand {
                             event.getAuthor().getPrivateChannel().sendMessage("Sorry but an error occurred or there was no chat logs found!");
                         }
 
+                    } else if (event.getMessage().getMentionedChannels().size() > 0) {
+
+                        event.getAuthor().getPrivateChannel().sendMessage("Here are the chat logs for the channels you asked for:");
+                        for (TextChannel channel : event.getMessage().getMentionedChannels()) {
+                            File channelFile = FileHandler.getLogFile(event.getGuild(), channel);
+                            event.getAuthor().getPrivateChannel().sendFile(channelFile, null);
+                        }
+
                     } else {
 
                         File logFile = FileHandler.getLogFile(event.getGuild(), event.getTextChannel());
@@ -50,7 +59,7 @@ public class GetCommand implements ICommand {
                 } else {
                     sendHelpMessage(event);
                 }
-            }catch (RateLimitedException e){
+            } catch (RateLimitedException e) {
                 BotLogger.error("I got rate limited sending chat logs for the server: " + event.getGuild().getName());
             }
         } else {
