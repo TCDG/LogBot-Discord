@@ -8,4 +8,8 @@ public class BotLogger {
     public static void info(String log) {
         System.out.println("[Log Bot] " + log);
     }
+
+    public static void error(String log) {
+        System.out.println("[Log Bot: ERROR] " + log);
+    }
 }
