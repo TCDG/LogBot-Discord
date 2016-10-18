@@ -1,9 +1,6 @@
 package com.xelitexirish.logbot;
 
-import com.xelitexirish.logbot.commands.GetCommand;
-import com.xelitexirish.logbot.commands.HelpCommand;
-import com.xelitexirish.logbot.commands.ICommand;
-import com.xelitexirish.logbot.commands.VipCommand;
+import com.xelitexirish.logbot.commands.*;
 import com.xelitexirish.logbot.handlers.BotListener;
 import com.xelitexirish.logbot.utils.BotLogger;
 import com.xelitexirish.logbot.utils.CommandParser;
@@ -51,6 +48,7 @@ public class LogBot {
         commands.put("vip", new VipCommand());
         commands.put("help", new HelpCommand());
         commands.put("get", new GetCommand());
+        commands.put("status", new StatusCommand());
     }
 
     public static void handleCommand(CommandParser.CommandContainer cmd){
@@ -66,7 +64,7 @@ public class LogBot {
         }
     }
 
-    private static int getTotalMembers() {
+    public static int getTotalMembers() {
         int totalMembers = 0;
         for (Guild guild : jda.getGuilds()){
             totalMembers =+ guild.getUsers().size();
