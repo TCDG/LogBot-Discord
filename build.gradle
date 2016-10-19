@@ -19,7 +19,7 @@ task fatJar(type: Jar) {
 
 dependencies {
 
-    compile 'net.dv8tion:JDA:2.2.1_353'
+    compile 'net.dv8tion:JDA:2.2.1_375'
 
     // https://mvnrepository.com/artifact/org.json/json
     compile group: 'org.json', name: 'json', version: '20160212'

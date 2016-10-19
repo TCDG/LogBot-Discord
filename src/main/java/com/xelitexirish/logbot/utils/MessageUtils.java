@@ -19,9 +19,9 @@ public class MessageUtils {
         return messageBuilder.build();
     }
 
-    public static String wrapStringInCodeBlock(String message, String language) {
+    public static Message wrapStringInCodeBlock(String message, String language) {
         MessageBuilder messageBuilder = new MessageBuilder();
         messageBuilder.appendCodeBlock(message, language);
-        return messageBuilder.build().getContent();
+        return messageBuilder.build();
     }
 }

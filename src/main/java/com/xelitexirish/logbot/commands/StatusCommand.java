@@ -1,15 +1,15 @@
 package com.xelitexirish.logbot.commands;
 
 import com.xelitexirish.logbot.LogBot;
+import com.xelitexirish.logbot.handlers.PermissionHandler;
+import com.xelitexirish.logbot.utils.Constants;
 import com.xelitexirish.logbot.utils.MessageUtils;
-import net.dv8tion.jda.MessageBuilder;
-import net.dv8tion.jda.entities.Message;
 import net.dv8tion.jda.events.message.MessageReceivedEvent;
 
 /**
  * Created by XeliteXirish on 15/10/2016. www.xelitexirish.com
  */
-public class StatusCommand implements ICommand{
+public class StatusCommand implements ICommand {
 
     @Override
     public boolean called(String[] args, MessageReceivedEvent event) {
@@ -18,12 +18,19 @@ public class StatusCommand implements ICommand{
 
     @Override
     public void action(String[] args, MessageReceivedEvent event) {
-        event.getAuthor().getPrivateChannel().sendMessage(MessageUtils.wrapStringInCodeBlock(getStatusText(), "css"));
+        if (args.length > 0 && args[0].equalsIgnoreCase("online")) {
+            if (PermissionHandler.isUserAdmin(event.getGuild(), event.getAuthor())) {
+                LogBot.toggleOnlineStatus();
+                event.getAuthor().getPrivateChannel().sendMessage("Bot status has been changed to: " + event.getJDA().getSelfInfo().getOnlineStatus());
+            }
+        } else {
+            event.getTextChannel().sendMessage(MessageUtils.wrapStringInCodeBlock(getStatusText(event), "css"));
+        }
     }
 
     @Override
     public String help() {
-        return "Displays the basic status information for the bot";
+        return "Displays the basic status information for the bot.  Use 'online' as an extra argument to toggle the bots online status";
     }
 
     @Override
@@ -36,11 +43,20 @@ public class StatusCommand implements ICommand{
         return "status";
     }
 
-    private String getStatusText(){
-        MessageBuilder messageBuilder = new MessageBuilder();
-        messageBuilder.appendString("{LotBot Status}\n");
-        messageBuilder.appendString("Users: " + LogBot.getTotalMembers() + "\n");
-        messageBuilder.appendString("Servers: " + LogBot.jda.getGuilds().size());
-        return messageBuilder.toString();
+    private String getStatusText(MessageReceivedEvent event) {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("[-!.LotBot Status.!-]\n\n");
+        stringBuilder.append("Total Users: " + LogBot.getTotalMembers() + "\n");
+        stringBuilder.append("Servers: " + LogBot.jda.getGuilds().size() + "\n");
+        stringBuilder.append("Total Channels: " + LogBot.getTotalChannels() + "\n");
+        stringBuilder.append("===================\n");
+        stringBuilder.append("Guild Owner: " + event.getGuild().getOwner().getUsername() + "\n");
+        stringBuilder.append("Guild ID: " + event.getGuild().getId() + "\n");
+        stringBuilder.append("===================\n");
+        stringBuilder.append("Bot Version: [" + Constants.BOT_VERSION + "]\n");
+        stringBuilder.append("===================\n");
+        stringBuilder.append("Bot Developer: XeliteXirish\n");
+        stringBuilder.append("Developer Website: [www.xelitexirish.com]");
+        return stringBuilder.toString();
     }
 }

@@ -53,16 +53,16 @@ public class GetCommand implements ICommand {
                         }
 
                     } else {
-
-                        File logFile = FileHandler.getLogFile(event.getGuild(), event.getTextChannel());
-                        MessageBuilder messageBuilder = new MessageBuilder();
-                        messageBuilder.appendString("This is the log file for channel: " + event.getTextChannel().getName());
-
-                        event.getAuthor().getPrivateChannel().sendFile(logFile, messageBuilder.build());
-                        BotLogger.info(event.getAuthorName() + " asked for file: " + logFile.getName() + " on server: " + event.getGuild().getName());
+                        sendHelpMessage(event);
                     }
                 } else {
-                    sendHelpMessage(event);
+
+                    File logFile = FileHandler.getLogFile(event.getGuild(), event.getTextChannel());
+                    MessageBuilder messageBuilder = new MessageBuilder();
+                    messageBuilder.appendString("This is the log file for channel: " + event.getTextChannel().getName());
+
+                    event.getAuthor().getPrivateChannel().sendFile(logFile, messageBuilder.build());
+                    BotLogger.info(event.getAuthorName() + " asked for file: " + logFile.getName() + " on server: " + event.getGuild().getName());
                 }
             } catch (RateLimitedException e) {
                 BotLogger.error("I got rate limited sending chat logs for the server: " + event.getGuild().getName());

@@ -6,7 +6,9 @@ import com.xelitexirish.logbot.utils.BotLogger;
 import com.xelitexirish.logbot.utils.CommandParser;
 import net.dv8tion.jda.JDA;
 import net.dv8tion.jda.JDABuilder;
+import net.dv8tion.jda.OnlineStatus;
 import net.dv8tion.jda.entities.Guild;
+import net.dv8tion.jda.entities.TextChannel;
 
 import java.util.HashMap;
 import java.util.Random;
@@ -89,5 +91,23 @@ public class LogBot {
         }
 
         return totalMembers;
+    }
+
+    public static int getTotalChannels(){
+        int totalChannels = 0;
+        for (Guild guild : jda.getGuilds()){
+            for (TextChannel channel : guild.getTextChannels()){
+                totalChannels++;
+            }
+        }
+        return totalChannels;
+    }
+
+    public static void toggleOnlineStatus(){
+        if (jda.getSelfInfo().getOnlineStatus() == OnlineStatus.ONLINE) {
+            jda.getAccountManager().setStatus(OnlineStatus.OFFLINE);
+        }else {
+            jda.getAccountManager().setStatus(OnlineStatus.INVISIBLE);
+        }
     }
 }
