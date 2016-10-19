@@ -2,6 +2,7 @@ package com.xelitexirish.logbot.commands;
 
 import com.xelitexirish.logbot.LogBot;
 import com.xelitexirish.logbot.handlers.PermissionHandler;
+import com.xelitexirish.logbot.utils.BotLogger;
 import com.xelitexirish.logbot.utils.Constants;
 import com.xelitexirish.logbot.utils.MessageUtils;
 import net.dv8tion.jda.events.message.MessageReceivedEvent;
@@ -22,9 +23,12 @@ public class StatusCommand implements ICommand {
             if (PermissionHandler.isUserAdmin(event.getGuild(), event.getAuthor())) {
                 LogBot.toggleOnlineStatus();
                 event.getAuthor().getPrivateChannel().sendMessage("Bot status has been changed to: " + event.getJDA().getSelfInfo().getOnlineStatus());
+                BotLogger.info(event.getAuthorName() + " set the bot status to: " + event.getJDA().getSelfInfo().getOnlineStatus());
+            }else {
+                MessageUtils.getNoPermissionMsg(PermissionHandler.ADMIN_PERMISSION);
             }
         } else {
-            event.getTextChannel().sendMessage(MessageUtils.wrapStringInCodeBlock(getStatusText(event), "css"));
+            event.getTextChannel().sendMessage(MessageUtils.wrapStringInCodeBlock(getStatusText(event)));
         }
     }
 

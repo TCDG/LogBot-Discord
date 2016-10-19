@@ -27,13 +27,15 @@ public class LogBot {
     public static HashMap<String, ICommand> commands = new HashMap<>();
 
     public static String DISCORD_TOKEN;
+    public static String MAINTAINER_ID;
 
     public static void main(String[] args){
 
         if(args.length > 0){
             DISCORD_TOKEN = args[0];
+            MAINTAINER_ID = args[1];
         }else {
-            BotLogger.error("Please enter a valid discord token and try again.");
+            BotLogger.error("Please enter a valid discord token and maintainer ID and try again!");
             return;
         }
 

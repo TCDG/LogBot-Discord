@@ -53,7 +53,7 @@ public class HelpCommand implements ICommand{
             stringBuilder.append("\t" + command.getTag() + ": " + command.help() + "\n");
         }
 
-        return MessageUtils.wrapStringInCodeBlock(stringBuilder.toString());
+        return MessageUtils.wrapStringInCodeBlock(stringBuilder.toString(), "css");
     }
 
     private ICommand getCommandFromString(String commandName) {
