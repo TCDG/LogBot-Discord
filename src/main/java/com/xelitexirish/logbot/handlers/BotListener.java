@@ -32,7 +32,7 @@ public class BotListener extends ListenerAdapter {
                 event.getAuthor().getPrivateChannel().sendMessage(MessageUtils.wrapStringInCodeBlock(stringBuilder.toString()));
 
             } else {
-                event.getAuthor().getPrivateChannel().sendMessage("Sorry but I can't recognise any command or input you make unless its made in a guild! I need to make sure you have permission!");
+                event.getAuthor().getPrivateChannel().sendMessage("Sorry but I can't recognise any command or input you make unless it's made in a guild channel! I need to make sure you have permission!");
             }
         }
 
