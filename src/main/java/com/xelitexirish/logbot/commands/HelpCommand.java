@@ -3,6 +3,7 @@ package com.xelitexirish.logbot.commands;
 import com.xelitexirish.logbot.LogBot;
 import com.xelitexirish.logbot.utils.Constants;
 import com.xelitexirish.logbot.utils.MessageUtils;
+import net.dv8tion.jda.entities.Message;
 import net.dv8tion.jda.events.message.MessageReceivedEvent;
 
 /**
@@ -21,7 +22,6 @@ public class HelpCommand implements ICommand{
         if (args.length == 0){
             event.getTextChannel().sendMessage(getHelpMessage());
         }else {
-
             String helpCommand = args[0];
 
             ICommand command = getCommandFromString(helpCommand);
@@ -44,7 +44,7 @@ public class HelpCommand implements ICommand{
         return "help";
     }
 
-    private String getHelpMessage(){
+    private Message getHelpMessage(){
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("Hey I'm LogBot, my author is XeliteXirish! Check his website out (www.xelitexirish.com) \n");
         stringBuilder.append("To use a command, start it with: " + Constants.COMMAND_PREFIX + "\n\n");

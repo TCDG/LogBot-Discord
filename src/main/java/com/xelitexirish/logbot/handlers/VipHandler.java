@@ -59,6 +59,8 @@ public class VipHandler {
 
     private static void loadVipListData(Guild guild) {
         try {
+            writeVipList(guild);
+
             // Get file for the server
             File vipFile = FileHandler.getServerVipFile(guild);
 
@@ -78,7 +80,7 @@ public class VipHandler {
             }
 
         } catch (ParseException | IOException e) {
-            BotLogger.debug("I wasn't able to load the vip data for the server: " + guild.getName());
+            BotLogger.debug("I wasn't able to load the vip data for the server: " + guild.getName(), e);
         }
     }
 
@@ -101,7 +103,7 @@ public class VipHandler {
             fileWriter.close();
 
         } catch (IOException e) {
-            BotLogger.debug("I wasn't able to load the vip data for the server: " + guild.getName());
+            BotLogger.debug("I wasn't able to load the vip data for the server: " + guild.getName(), e);
         }
     }
 

@@ -9,19 +9,19 @@ import net.dv8tion.jda.entities.Message;
  */
 public class MessageUtils {
 
-    public static String getNoPermissionMsg(Permission permission) {
+    public static Message getNoPermissionMsg(Permission permission) {
         return MessageUtils.wrapStringInCodeBlock("Sorry but you don't have the required permission to use this command. Required permission: " + permission.name());
     }
 
-    public static String wrapStringInCodeBlock(String message) {
+    public static Message wrapStringInCodeBlock(String message) {
         MessageBuilder messageBuilder = new MessageBuilder();
         messageBuilder.appendCodeBlock(message, "");
-        return messageBuilder.toString();
+        return messageBuilder.build();
     }
 
     public static String wrapStringInCodeBlock(String message, String language) {
         MessageBuilder messageBuilder = new MessageBuilder();
         messageBuilder.appendCodeBlock(message, language);
-        return messageBuilder.toString();
+        return messageBuilder.build().getContent();
     }
 }
