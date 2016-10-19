@@ -1,7 +1,9 @@
 package com.xelitexirish.logbot.handlers;
 
 import com.xelitexirish.logbot.LogBot;
+import com.xelitexirish.logbot.utils.BotLogger;
 import com.xelitexirish.logbot.utils.Constants;
+import net.dv8tion.jda.events.guild.member.GuildMemberJoinEvent;
 import net.dv8tion.jda.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.hooks.ListenerAdapter;
 
@@ -23,5 +25,13 @@ public class BotListener extends ListenerAdapter {
         }
 
         DiscordLogHandler.onMessageRecieved(event);
+    }
+
+    @Override
+    public void onGuildMemberJoin(GuildMemberJoinEvent event) {
+
+        if (event.getUser().getId().equals(LogBot.jda.getSelfInfo().getId())){
+            BotLogger.info("I joined the server: " + event.getGuild());
+        }
     }
 }

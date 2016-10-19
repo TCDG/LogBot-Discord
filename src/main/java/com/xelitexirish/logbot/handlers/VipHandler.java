@@ -73,9 +73,8 @@ public class VipHandler {
 
             JSONArray arrayVipUsers = (JSONArray) jsonObject.get("arrayVipUsers");
             if (arrayVipUsers != null) {
-                Iterator<String> iterator = arrayVipUsers.iterator();
-                while (iterator.hasNext()) {
-                    vipUsers.add(iterator.next());
+                for (String arrayVipUser : (Iterable<String>) arrayVipUsers) {
+                    vipUsers.add(arrayVipUser);
                 }
             }
 

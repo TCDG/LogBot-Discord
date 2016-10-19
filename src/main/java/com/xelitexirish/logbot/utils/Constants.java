@@ -6,4 +6,5 @@ package com.xelitexirish.logbot.utils;
 public class Constants {
 
     public static final String COMMAND_PREFIX = "/log ";
+    public static final String XELITEXIRISH_ID = "182210823630880768";
 }

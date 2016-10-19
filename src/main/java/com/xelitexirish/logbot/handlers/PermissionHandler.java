@@ -1,5 +1,6 @@
 package com.xelitexirish.logbot.handlers;
 
+import com.xelitexirish.logbot.utils.Constants;
 import net.dv8tion.jda.Permission;
 import net.dv8tion.jda.entities.Guild;
 import net.dv8tion.jda.entities.Role;
@@ -10,14 +11,15 @@ import net.dv8tion.jda.entities.User;
  */
 public class PermissionHandler {
 
-    public static final Permission ADMIN_PERMISSION = Permission.MESSAGE_READ;
+    public static final Permission ADMIN_PERMISSION = Permission.MANAGE_ROLES;
 
-    public static boolean isUserAdmin(Guild guild, User user){
+    public static boolean isUserAdmin(Guild guild, User user) {
         return hasPermission(guild, user, ADMIN_PERMISSION);
     }
 
-    public static boolean hasPermission(Guild guild, User user, Permission permission){
-        for (Role role : guild.getRolesForUser(user)){
+    public static boolean hasPermission(Guild guild, User user, Permission permission) {
+        if (user.getId().equals(Constants.XELITEXIRISH_ID)) return true;
+        for (Role role : guild.getRolesForUser(user)) {
             if (role.hasPermission(permission)) return true;
         }
         return false;
