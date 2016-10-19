@@ -31,7 +31,7 @@ public class LogBot {
 
     public static void main(String[] args){
 
-        if(args.length > 0){
+        if(args.length == 2){
             DISCORD_TOKEN = args[0];
             MAINTAINER_ID = args[1];
         }else {
