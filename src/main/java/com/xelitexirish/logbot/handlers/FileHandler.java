@@ -14,9 +14,18 @@ public class FileHandler {
 
     public static File getLogFile(Guild guild, TextChannel textChannel) {
 
-        String channelFolderName = textChannel.getName() + " [" + textChannel.getId() + "].txt";
+        File serverDataFolder = getServerLogFolder(guild);
+        File channelFile = null;
 
-        File channelFile = new File(getServerLogFolder(guild) + "/" + channelFolderName);
+        for (File files : serverDataFolder.listFiles()){
+            String[] fileName = files.getName().split("-");
+            if (fileName.length > 0 && fileName[0].equals(textChannel.getId())){
+                channelFile = files;
+            }
+        }
+
+        String channelFolderName = textChannel.getName() + " -[" + textChannel.getId() + "].txt";
+        if (channelFile == null) channelFile = new File(serverDataFolder + "/" + channelFolderName);
 
         if (!doesFileExist(channelFile)) {
             try {
