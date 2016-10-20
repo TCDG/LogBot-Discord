@@ -28,7 +28,7 @@ public class StatusCommand implements ICommand {
                 MessageUtils.getNoPermissionMsg(PermissionHandler.ADMIN_PERMISSION);
             }
         } else {
-            event.getTextChannel().sendMessage(MessageUtils.wrapStringInCodeBlock(getStatusText(event)));
+            event.getTextChannel().sendMessage(MessageUtils.wrapStringInCodeBlock(getStatusText(event), "css"));
         }
     }
 
@@ -58,6 +58,7 @@ public class StatusCommand implements ICommand {
         stringBuilder.append("Guild ID: " + event.getGuild().getId() + "\n");
         stringBuilder.append("===================\n");
         stringBuilder.append("Bot Version: [" + Constants.BOT_VERSION + "]\n");
+        stringBuilder.append("Bot Instance Maintainer: [" + event.getGuild().getUserById(LogBot.MAINTAINER_ID).getUsername() + "]\n");
         stringBuilder.append("===================\n");
         stringBuilder.append("Bot Developer: XeliteXirish\n");
         stringBuilder.append("Developer Website: [www.xelitexirish.com]");
