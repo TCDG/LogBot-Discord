@@ -89,7 +89,7 @@ public class LogBot {
     public static int getTotalMembers() {
         int totalMembers = 0;
         for (Guild guild : jda.getGuilds()){
-            totalMembers =+ guild.getUsers().size();
+            totalMembers += guild.getUsers().size();
         }
 
         return totalMembers;
