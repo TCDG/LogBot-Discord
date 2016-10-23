@@ -1,6 +1,5 @@
 package com.xelitexirish.logbot.utils;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.logging.FileHandler;
 import java.util.logging.Logger;
@@ -39,7 +38,7 @@ public class BotLogger {
         logger.info("[Log Bot: DEBUG] " + log);
     }
 
-    public static void debug(String log, Exception exception){
+    public static void debug(String log, Exception exception) {
         debug(log);
         exception.printStackTrace();
     }

@@ -21,9 +21,9 @@ public class FileHandler {
         File serverDataFolder = getServerLogFolder(guild);
         File channelFile = null;
 
-        for (File files : serverDataFolder.listFiles()){
+        for (File files : serverDataFolder.listFiles()) {
             String[] fileName = files.getName().split("-");
-            if (fileName.length > 2 && fileName[1].contains(textChannel.getId())){
+            if (fileName.length > 2 && fileName[1].contains(textChannel.getId())) {
                 channelFile = files;
             }
         }
@@ -57,11 +57,11 @@ public class FileHandler {
         return serverVipFile;
     }
 
-    public static File getServerEventLogFile(Guild guild){
+    public static File getServerEventLogFile(Guild guild) {
 
         File serverEventLogFile = new File(getServerDataFolder(guild) + "/" + "event_log.txt");
 
-        if (!doesFileExist(serverEventLogFile)){
+        if (!doesFileExist(serverEventLogFile)) {
             try {
                 serverEventLogFile.createNewFile();
                 BotLogger.info("Creating new event log file for the server: " + guild.getName());
@@ -72,12 +72,12 @@ public class FileHandler {
         return serverEventLogFile;
     }
 
-    public static File getTempLogFile(MessageReceivedEvent event, User user, int searchLength){
+    public static File getTempLogFile(MessageReceivedEvent event, User user, int searchLength) {
         String tempFileName = user.getUsername() + "-[" + user.getId() + "].txt";
 
         File tempLogFile = new File(getTempFolder() + "/" + tempFileName);
 
-        if (!doesFileExist(tempLogFile)){
+        if (!doesFileExist(tempLogFile)) {
             try {
                 tempLogFile.createNewFile();
                 BotLogger.info("Creating new log file for user: " + user.getUsername());
@@ -93,7 +93,7 @@ public class FileHandler {
      * Helper Methods
      */
 
-    public static File[] getAllServerLogFiles(Guild guild){
+    public static File[] getAllServerLogFiles(Guild guild) {
         String serverFolderName = getServerFolder(guild) + "/channels/";
         File serverFolder = new File(serverFolderName);
         return serverFolder.listFiles();
@@ -118,9 +118,9 @@ public class FileHandler {
         File baseFileDir = new File(getBaseFileDir());
         File serverFolder = null;
 
-        for (File file : baseFileDir.listFiles()){
+        for (File file : baseFileDir.listFiles()) {
             String[] nameSplit = file.getName().split("-");
-            if (nameSplit.length > 2 && nameSplit[1].contains(guild.getId())){
+            if (nameSplit.length > 2 && nameSplit[1].contains(guild.getId())) {
                 serverFolder = file;
             }
         }
@@ -132,14 +132,14 @@ public class FileHandler {
         return serverFolder;
     }
 
-    public static File getTempFolder(){
+    public static File getTempFolder() {
 
         File tempFolder = new File(getBaseFileDir() + "temp/");
         if (!doesFileExist(tempFolder)) tempFolder.mkdirs();
         return tempFolder;
     }
 
-    public static ArrayList<File> getAllLogFiles(){
+    public static ArrayList<File> getAllLogFiles() {
         return GeneralUtils.listDirectoryFiles(getBaseFileDir(), 0);
     }
 
