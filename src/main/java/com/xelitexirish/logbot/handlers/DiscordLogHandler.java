@@ -128,7 +128,7 @@ public class DiscordLogHandler {
         }
     }
 
-    public static void writePlayerDataLog(MessageReceivedEvent event, File logFile, User user) {
+    public static void writePlayerDataLog(MessageReceivedEvent event, File logFile, User user, int searchLength) {
 
         if (logFile != null) {
             for (File file : FileHandler.getAllLogFiles()) {
@@ -143,6 +143,8 @@ public class DiscordLogHandler {
                         if (line.contains(user.getUsername())) {
                             writeStringToFile(logFile, line, "Wasn't able to write to the user log for the user: " + user.getUsername());
                         }
+
+                        if (messageLength >= searchLength) break;
                         if (!PermissionHandler.isUserMaintainer(event.getAuthor())) {
                             if (messageLength >= GetCommand.MAX_LENGTH) break;
                         }

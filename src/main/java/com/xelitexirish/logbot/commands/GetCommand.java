@@ -31,10 +31,10 @@ public class GetCommand implements ICommand {
         if (PermissionHandler.isUserAdmin(event.getGuild(), event.getAuthor())) {
             try {
 
-                if (args.length > 0 && args[0].equalsIgnoreCase("channel")){
+                if (args.length > 0 && args[0].equalsIgnoreCase("channel")) {
                     getChannelLog(args, event);
 
-                }else if (args.length > 0 && args[0].equalsIgnoreCase("player")){
+                } else if (args.length > 0 && args[0].equalsIgnoreCase("player")) {
                     getPlayerLog(args, event);
                 }
 
@@ -77,7 +77,7 @@ public class GetCommand implements ICommand {
             event.getAuthor().getPrivateChannel().sendFile(logFile, messageBuilder.build());
             BotLogger.info(event.getAuthorName() + " asked for file: " + logFile.getName() + " on server: " + event.getGuild().getName());
 
-        } else if (args.length > 1){
+        } else if (args.length > 1) {
 
             if (args[1].equalsIgnoreCase("all")) {
                 // get channel all
@@ -112,13 +112,19 @@ public class GetCommand implements ICommand {
     }
 
     private void getPlayerLog(String[] args, MessageReceivedEvent event) {
+        // get player <users> <length>
 
         List<User> logUser = event.getMessage().getMentionedUsers();
+        int searchLength = 0;
+        try {
+            searchLength = Integer.parseInt(args[args.length - 1]);
+        } catch (Exception e) {
+        }
 
         event.getAuthor().getPrivateChannel().sendMessage("Here are the chat logs for the user you asked for, this may take a long time:");
-        for (User user : logUser){
+        for (User user : logUser) {
 
-            File logFile = FileHandler.getTempLogFile(event, user);
+            File logFile = FileHandler.getTempLogFile(event, user, searchLength);
             event.getAuthor().getPrivateChannel().sendFile(logFile, null);
 
             BotLogger.info(event.getAuthor().getUsername() + " asked for file: " + logFile.getName() + " on the server: " + event.getGuild().getName());

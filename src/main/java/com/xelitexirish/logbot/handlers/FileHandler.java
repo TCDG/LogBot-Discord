@@ -72,7 +72,7 @@ public class FileHandler {
         return serverEventLogFile;
     }
 
-    public static File getTempLogFile(MessageReceivedEvent event, User user){
+    public static File getTempLogFile(MessageReceivedEvent event, User user, int searchLength){
         String tempFileName = user.getUsername() + "-[" + user.getId() + "].txt";
 
         File tempLogFile = new File(getTempFolder() + "/" + tempFileName);
@@ -85,7 +85,7 @@ public class FileHandler {
                 e.printStackTrace();
             }
         }
-        DiscordLogHandler.writePlayerDataLog(event, tempLogFile, user);
+        DiscordLogHandler.writePlayerDataLog(event, tempLogFile, user, searchLength);
         return tempLogFile;
     }
 
