@@ -18,7 +18,7 @@ import java.util.List;
  */
 public class GetCommand implements ICommand {
 
-    public static final int MAX_LENGTH = 200;
+    public static final int MAX_LENGTH = 1000;
 
     @Override
     public boolean called(String[] args, MessageReceivedEvent event) {
