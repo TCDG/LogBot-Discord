@@ -208,3 +208,4 @@ gradle-app.setting
 *.iml
 
 /discord_servers/
+log.*

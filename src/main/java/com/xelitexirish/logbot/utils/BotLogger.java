@@ -1,5 +1,6 @@
 package com.xelitexirish.logbot.utils;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.logging.FileHandler;
 import java.util.logging.Logger;
@@ -10,13 +11,12 @@ import java.util.logging.SimpleFormatter;
  */
 public class BotLogger {
 
-    static Logger logger;
+    static Logger logger = Logger.getLogger("log.txt");
 
     public static void init() {
-        logger = Logger.getLogger("/logs/log.txt");
 
         try {
-            FileHandler fileHandler = new FileHandler("/logs/log.log", true);
+            FileHandler fileHandler = new FileHandler("log.log", true);
             logger.addHandler(fileHandler);
 
             SimpleFormatter formatter = new SimpleFormatter();
