@@ -50,8 +50,6 @@ public class LogBot {
             e.printStackTrace();
         }
 
-        BotLogger.init();
-
         registerCommands();
         handlePlayingMessage();
 

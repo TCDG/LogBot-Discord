@@ -1,25 +1,32 @@
 package com.xelitexirish.logbot.utils;
 
+import com.xelitexirish.logbot.handlers.FileHandler;
+
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
-import java.util.logging.FileHandler;
-import java.util.logging.Logger;
-import java.util.logging.SimpleFormatter;
+import java.io.PrintWriter;
 
 /**
  * Created by XeliteXirish on 13/10/2016. www.xelitexirish.com
  */
 public class BotLogger {
 
-    static Logger logger = Logger.getLogger("log.txt");
+    private static File logFolder = new File("logs/");
+    private static File logFile = new File(logFolder + "/logs.txt");
 
-    public static void init() {
+    private static void log(String logMessage) {
 
         try {
-            FileHandler fileHandler = new FileHandler("log.log", true);
-            logger.addHandler(fileHandler);
+            logFolder.mkdirs();
+            if (!FileHandler.doesFileExist(logFile)) {
+                logFile.createNewFile();
+            }
 
-            SimpleFormatter formatter = new SimpleFormatter();
-            fileHandler.setFormatter(formatter);
+            PrintWriter printWriter = new PrintWriter(new FileWriter(logFile, true));
+            printWriter.println(logMessage);
+            printWriter.flush();
+            printWriter.close();
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -27,15 +34,15 @@ public class BotLogger {
     }
 
     public static void info(String log) {
-        logger.info("[Log Bot] " + log);
+        log("[Log Bot] " + log);
     }
 
     public static void error(String log) {
-        logger.info("[Log Bot: ERROR] " + log);
+        log("[Log Bot: ERROR] " + log);
     }
 
     public static void debug(String log) {
-        logger.info("[Log Bot: DEBUG] " + log);
+        log("[Log Bot: DEBUG] " + log);
     }
 
     public static void debug(String log, Exception exception) {

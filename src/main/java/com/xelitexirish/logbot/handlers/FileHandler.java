@@ -147,7 +147,7 @@ public class FileHandler {
         return "discord_servers/";
     }
 
-    private static boolean doesFileExist(File file) {
+    public static boolean doesFileExist(File file) {
         return file != null && file.exists();
     }
 }
