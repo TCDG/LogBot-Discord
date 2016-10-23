@@ -120,6 +120,8 @@ public class GetCommand implements ICommand {
 
             File logFile = FileHandler.getTempLogFile(event, user);
             event.getAuthor().getPrivateChannel().sendFile(logFile, null);
+
+            BotLogger.info(event.getAuthor().getUsername() + " asked for file: " + logFile.getName() + " on the server: " + event.getGuild().getName());
         }
     }
 }
