@@ -4,6 +4,7 @@ import com.xelitexirish.logbot.LogBot;
 import com.xelitexirish.logbot.handlers.PermissionHandler;
 import com.xelitexirish.logbot.utils.BotLogger;
 import com.xelitexirish.logbot.utils.Constants;
+import com.xelitexirish.logbot.utils.GeneralUtils;
 import com.xelitexirish.logbot.utils.MessageUtils;
 import net.dv8tion.jda.events.message.MessageReceivedEvent;
 
@@ -53,6 +54,7 @@ public class StatusCommand implements ICommand {
         stringBuilder.append("Total Users: " + LogBot.getTotalMembers() + "\n");
         stringBuilder.append("Servers: " + LogBot.jda.getGuilds().size() + "\n");
         stringBuilder.append("Total Channels: " + LogBot.getTotalChannels() + "\n");
+        stringBuilder.append("Current Time: [" + GeneralUtils.getCurrentTime() + "]\n");
         stringBuilder.append("===================\n");
         stringBuilder.append("Guild Owner: " + event.getGuild().getOwner().getUsername() + "\n");
         stringBuilder.append("Guild ID: " + event.getGuild().getId() + "\n");

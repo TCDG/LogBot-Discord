@@ -28,7 +28,7 @@ public class DiscordLogHandler {
 
     private static void logMessage(MessageReceivedEvent event) {
 
-        String logMessage = "{" + GeneralUtils.getCurrentTime() + "} " + "[" + event.getAuthor().getUsername() + "] " + event.getMessage().getContent();
+        String logMessage = "{" + GeneralUtils.getCurrentTime() + "} " + "{" + event.getGuild().getName() + "-" + event.getTextChannel() + "] " + "[" + event.getAuthor().getUsername() + "] " + event.getMessage().getContent();
 
         if (VipHandler.isUserVip(event.getGuild(), event.getAuthor())) {
             logMessage = "{VIP}" + logMessage;

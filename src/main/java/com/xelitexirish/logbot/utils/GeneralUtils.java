@@ -11,7 +11,7 @@ import java.util.Calendar;
 public class GeneralUtils {
 
     public static String getCurrentTime() {
-        return new SimpleDateFormat("yyyy/MMdd_HHmmss").format(Calendar.getInstance().getTime());
+        return new SimpleDateFormat("yyyy:MM:dd - HH:mm:ss").format(Calendar.getInstance().getTime());
     }
 
     public static ArrayList<File> listDirectoryFiles(String dirPath, int level) {
