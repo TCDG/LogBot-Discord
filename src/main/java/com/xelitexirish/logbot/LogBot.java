@@ -28,12 +28,17 @@ public class LogBot {
 
     public static String DISCORD_TOKEN;
     public static String MAINTAINER_ID;
+    public static boolean ENABLE_DEBUG_MODE = false;
 
     public static void main(String[] args){
 
-        if(args.length == 2){
+        if(args.length >= 2){
             DISCORD_TOKEN = args[0];
             MAINTAINER_ID = args[1];
+
+            if (args.length >= 3){
+                ENABLE_DEBUG_MODE = Boolean.parseBoolean(args[2]);
+            }
         }else {
             BotLogger.error("Please enter a valid discord token and maintainer ID and try again!");
             return;

@@ -53,6 +53,21 @@ public class FileHandler {
         return serverVipFile;
     }
 
+    public static File getServerEventLogFile(Guild guild){
+
+        File serverEventLogFile = new File(getServerDataFolder(guild) + "/" + "event_log.txt");
+
+        if (!doesFileExist(serverEventLogFile)){
+            try {
+                serverEventLogFile.createNewFile();
+                BotLogger.info("Creating new event log file for the server: " + guild.getName());
+            } catch (IOException e) {
+                BotLogger.debug("Wasn't able to create the event log file for the server: " + guild.getName());
+            }
+        }
+        return serverEventLogFile;
+    }
+
     /**
      * Helper Methods
      */

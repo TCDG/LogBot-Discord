@@ -12,7 +12,7 @@ import net.dv8tion.jda.entities.User;
  */
 public class PermissionHandler {
 
-    public static final Permission ADMIN_PERMISSION = Permission.MANAGE_ROLES;
+    public static final Permission ADMIN_PERMISSION = Permission.MESSAGE_MANAGE;
 
     public static boolean isUserAdmin(Guild guild, User user) {
         return hasPermission(guild, user, ADMIN_PERMISSION);

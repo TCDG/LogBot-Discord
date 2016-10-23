@@ -5,8 +5,15 @@ import com.xelitexirish.logbot.utils.BotLogger;
 import com.xelitexirish.logbot.utils.Constants;
 import com.xelitexirish.logbot.utils.MessageUtils;
 import net.dv8tion.jda.entities.Guild;
+import net.dv8tion.jda.events.channel.text.TextChannelCreateEvent;
+import net.dv8tion.jda.events.channel.text.TextChannelDeleteEvent;
+import net.dv8tion.jda.events.channel.voice.VoiceChannelCreateEvent;
+import net.dv8tion.jda.events.channel.voice.VoiceChannelDeleteEvent;
+import net.dv8tion.jda.events.guild.member.GuildMemberBanEvent;
 import net.dv8tion.jda.events.guild.member.GuildMemberJoinEvent;
+import net.dv8tion.jda.events.guild.member.GuildMemberNickChangeEvent;
 import net.dv8tion.jda.events.message.MessageReceivedEvent;
+import net.dv8tion.jda.events.message.guild.GuildMessageDeleteEvent;
 import net.dv8tion.jda.hooks.ListenerAdapter;
 
 /**
@@ -26,7 +33,7 @@ public class BotListener extends ListenerAdapter {
             if (event.getMessage().getContent().equalsIgnoreCase("servers")) {
                 StringBuilder stringBuilder = new StringBuilder();
                 stringBuilder.append("I am currently logging the following " + event.getJDA().getGuilds().size() + " servers:\n");
-                for (Guild guild : event.getJDA().getGuilds()){
+                for (Guild guild : event.getJDA().getGuilds()) {
                     stringBuilder.append("\t-" + guild.getName() + "\n");
                 }
                 event.getAuthor().getPrivateChannel().sendMessage(MessageUtils.wrapStringInCodeBlock(stringBuilder.toString()));
@@ -42,8 +49,51 @@ public class BotListener extends ListenerAdapter {
     @Override
     public void onGuildMemberJoin(GuildMemberJoinEvent event) {
 
+        DiscordLogHandler.onMemberJoin(event);
+
         if (event.getUser().getId().equals(LogBot.jda.getSelfInfo().getId())) {
             BotLogger.info("I joined the server: " + event.getGuild());
         }
+    }
+
+    @Override
+    public void onGuildMemberBan(GuildMemberBanEvent event) {
+
+        DiscordLogHandler.onMemberBan(event);
+    }
+
+    @Override
+    public void onGuildMessageDelete(GuildMessageDeleteEvent event) {
+
+        DiscordLogHandler.onMessageDelete(event);
+    }
+
+    @Override
+    public void onTextChannelDelete(TextChannelDeleteEvent event) {
+
+        DiscordLogHandler.onTextChannelDelete(event);
+    }
+
+    @Override
+    public void onTextChannelCreate(TextChannelCreateEvent event) {
+
+        DiscordLogHandler.onTextChannelCreated(event);
+    }
+
+    @Override
+    public void onVoiceChannelDelete(VoiceChannelDeleteEvent event) {
+
+        DiscordLogHandler.onVoiceChannelDelete(event);
+    }
+
+    @Override
+    public void onVoiceChannelCreate(VoiceChannelCreateEvent event) {
+
+        DiscordLogHandler.onVoiceChannelCreate(event);
+    }
+
+    @Override
+    public void onGuildMemberNickChange(GuildMemberNickChangeEvent event) {
+        DiscordLogHandler.onUsernameUpdate(event);
     }
 }
