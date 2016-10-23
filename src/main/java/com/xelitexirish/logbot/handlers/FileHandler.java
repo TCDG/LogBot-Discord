@@ -57,7 +57,7 @@ public class FileHandler {
      * Helper Methods
      */
 
-    public static File[] getAllServerFiles(Guild guild){
+    public static File[] getAllServerLogFiles(Guild guild){
         String serverFolderName = getServerFolder(guild) + "/channels/";
         File serverFolder = new File(serverFolderName);
         return serverFolder.listFiles();

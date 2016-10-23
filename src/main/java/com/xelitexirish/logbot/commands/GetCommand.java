@@ -29,7 +29,7 @@ public class GetCommand implements ICommand {
                 if (args.length > 0) {
 
                     if (args[0].equalsIgnoreCase("all")) {
-                        File[] channelFiles = FileHandler.getAllServerFiles(event.getGuild());
+                        File[] channelFiles = FileHandler.getAllServerLogFiles(event.getGuild());
                         if (channelFiles != null) {
                             event.getAuthor().getPrivateChannel().sendMessage("Here are the chats logs for the server: " + event.getGuild().getName());
 
