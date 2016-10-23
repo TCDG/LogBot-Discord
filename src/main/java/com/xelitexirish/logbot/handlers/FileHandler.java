@@ -1,11 +1,15 @@
 package com.xelitexirish.logbot.handlers;
 
 import com.xelitexirish.logbot.utils.BotLogger;
+import com.xelitexirish.logbot.utils.GeneralUtils;
 import net.dv8tion.jda.entities.Guild;
 import net.dv8tion.jda.entities.TextChannel;
+import net.dv8tion.jda.entities.User;
+import net.dv8tion.jda.events.message.MessageReceivedEvent;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 /**
  * Created by XeliteXirish on 10/10/2016. www.xelitexirish.com
@@ -68,6 +72,23 @@ public class FileHandler {
         return serverEventLogFile;
     }
 
+    public static File getTempLogFile(MessageReceivedEvent event, User user){
+        String tempFileName = user.getUsername() + "-[" + user.getId() + "].txt";
+
+        File tempLogFile = new File(getTempFolder() + "/" + tempFileName);
+
+        if (!doesFileExist(tempLogFile)){
+            try {
+                tempLogFile.createNewFile();
+                BotLogger.info("Creating new log file for user: " + user.getUsername());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        DiscordLogHandler.writePlayerDataLog(event, tempLogFile, user);
+        return tempLogFile;
+    }
+
     /**
      * Helper Methods
      */
@@ -109,6 +130,17 @@ public class FileHandler {
 
         if (!serverFolder.exists()) serverFolder.mkdirs();
         return serverFolder;
+    }
+
+    public static File getTempFolder(){
+
+        File tempFolder = new File(getBaseFileDir() + "temp/");
+        if (!doesFileExist(tempFolder)) tempFolder.mkdirs();
+        return tempFolder;
+    }
+
+    public static ArrayList<File> getAllLogFiles(){
+        return GeneralUtils.listDirectoryFiles(getBaseFileDir(), 0);
     }
 
     public static String getBaseFileDir() {

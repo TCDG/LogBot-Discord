@@ -6,15 +6,19 @@ import com.xelitexirish.logbot.utils.BotLogger;
 import com.xelitexirish.logbot.utils.MessageUtils;
 import net.dv8tion.jda.MessageBuilder;
 import net.dv8tion.jda.entities.TextChannel;
+import net.dv8tion.jda.entities.User;
 import net.dv8tion.jda.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.exceptions.RateLimitedException;
 
 import java.io.File;
+import java.util.List;
 
 /**
  * Created by XeliteXirish on 15/10/2016. www.xelitexirish.com
  */
 public class GetCommand implements ICommand {
+
+    public static final int MAX_LENGTH = 200;
 
     @Override
     public boolean called(String[] args, MessageReceivedEvent event) {
@@ -109,5 +113,13 @@ public class GetCommand implements ICommand {
 
     private void getPlayerLog(String[] args, MessageReceivedEvent event) {
 
+        List<User> logUser = event.getMessage().getMentionedUsers();
+
+        event.getAuthor().getPrivateChannel().sendMessage("Here are the chat logs for the user you asked for, this may take a long time:");
+        for (User user : logUser){
+
+            File logFile = FileHandler.getTempLogFile(event, user);
+            event.getAuthor().getPrivateChannel().sendFile(logFile, null);
+        }
     }
 }

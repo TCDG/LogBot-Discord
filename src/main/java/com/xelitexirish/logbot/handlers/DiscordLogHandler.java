@@ -1,7 +1,9 @@
 package com.xelitexirish.logbot.handlers;
 
+import com.xelitexirish.logbot.commands.GetCommand;
 import com.xelitexirish.logbot.utils.BotLogger;
 import com.xelitexirish.logbot.utils.GeneralUtils;
+import net.dv8tion.jda.entities.User;
 import net.dv8tion.jda.events.channel.text.TextChannelCreateEvent;
 import net.dv8tion.jda.events.channel.text.TextChannelDeleteEvent;
 import net.dv8tion.jda.events.channel.voice.VoiceChannelCreateEvent;
@@ -12,10 +14,7 @@ import net.dv8tion.jda.events.guild.member.GuildMemberNickChangeEvent;
 import net.dv8tion.jda.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.events.message.guild.GuildMessageDeleteEvent;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.*;
 
 public class DiscordLogHandler {
 
@@ -126,6 +125,32 @@ public class DiscordLogHandler {
             }
         } else {
             BotLogger.error("LogFile or the message was null!");
+        }
+    }
+
+    public static void writePlayerDataLog(MessageReceivedEvent event, File logFile, User user) {
+
+        if (logFile != null) {
+            for (File file : FileHandler.getAllLogFiles()) {
+
+                try {
+                    BufferedReader bufferedReader = new BufferedReader(new FileReader(file));
+                    String line;
+                    int messageLength = 0;
+
+                    while ((line = bufferedReader.readLine()) != null) {
+                        messageLength++;
+                        if (line.contains(user.getUsername())) {
+                            writeStringToFile(logFile, line, "Wasn't able to write to the user log for the user: " + user.getUsername());
+                        }
+                        if (!PermissionHandler.isUserMaintainer(event.getAuthor())) {
+                            if (messageLength >= GetCommand.MAX_LENGTH) break;
+                        }
+                    }
+                } catch (IOException e) {
+                    BotLogger.debug("Something broke writing to player log file!", e);
+                }
+            }
         }
     }
 }
