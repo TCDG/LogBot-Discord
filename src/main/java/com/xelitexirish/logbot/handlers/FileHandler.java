@@ -19,7 +19,7 @@ public class FileHandler {
 
         for (File files : serverDataFolder.listFiles()){
             String[] fileName = files.getName().split("-");
-            if (fileName.length > 0 && fileName[1].contains(textChannel.getId())){
+            if (fileName.length > 2 && fileName[1].contains(textChannel.getId())){
                 channelFile = files;
             }
         }
@@ -99,7 +99,7 @@ public class FileHandler {
 
         for (File file : baseFileDir.listFiles()){
             String[] nameSplit = file.getName().split("-");
-            if (nameSplit.length > 0 && nameSplit[1].contains(guild.getId())){
+            if (nameSplit.length > 2 && nameSplit[1].contains(guild.getId())){
                 serverFolder = file;
             }
         }

@@ -59,7 +59,7 @@ public class DiscordLogHandler {
 
     public static void onMessageDelete(GuildMessageDeleteEvent event) {
 
-        String logMessage = "{" + GeneralUtils.getCurrentTime() + "} " + "The following message has been deleted: " + event.getMessage().getContent() + " has deleted a message on the server: " + event.getGuild().getName();
+        String logMessage = "{" + GeneralUtils.getCurrentTime() + "} " + "A message was deleted in the channel: " + event.getChannel() + " on the server: " + event.getGuild().getName();
 
         File logFile = FileHandler.getServerEventLogFile(event.getGuild());
 
@@ -67,7 +67,7 @@ public class DiscordLogHandler {
     }
 
     public static void onTextChannelDelete(TextChannelDeleteEvent event) {
-        String logMessage = "{" + GeneralUtils.getCurrentTime() + "} " + "The following text channel was deleted: " + event.getChannel().getName() + " on the server: " + event.getGuild().getName();
+        String logMessage = "{" + GeneralUtils.getCurrentTime() + "} " + "A text channel was deleted on the server: " + event.getGuild().getName();
 
         File logFile = FileHandler.getServerEventLogFile(event.getGuild());
 
@@ -85,7 +85,7 @@ public class DiscordLogHandler {
 
     public static void onVoiceChannelDelete(VoiceChannelDeleteEvent event) {
 
-        String logMessage = "{" + GeneralUtils.getCurrentTime() + "} " + "The following voice channel was deleted: " + event.getChannel().getName() + " on the server: " + event.getGuild().getName();
+        String logMessage = "{" + GeneralUtils.getCurrentTime() + "} " + "A voice channel was deleted on the server: " + event.getGuild().getName();
 
         File logFile = FileHandler.getServerEventLogFile(event.getGuild());
 
