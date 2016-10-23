@@ -51,7 +51,7 @@ public class GetCommand implements ICommand {
 
     @Override
     public String help() {
-        return "Returns the log file for the specified channel. Usage: get channel <mentioned channel>";
+        return "Returns the log file for the specified channel. Usage: get `channel <mentioned channel>` - `player <mentioned player>`";
     }
 
     @Override
