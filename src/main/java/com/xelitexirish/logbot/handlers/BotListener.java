@@ -25,7 +25,7 @@ public class BotListener extends ListenerAdapter {
         if (!event.getAuthor().isBot() && event.getMessage().isPrivate()) {
             if (event.getMessage().getContent().equalsIgnoreCase("servers")) {
                 StringBuilder stringBuilder = new StringBuilder();
-                stringBuilder.append("I am currently logging the following servers:\n");
+                stringBuilder.append("I am currently logging the following " + event.getJDA().getGuilds().size() + " servers:\n");
                 for (Guild guild : event.getJDA().getGuilds()){
                     stringBuilder.append("\t-" + guild.getName() + "\n");
                 }

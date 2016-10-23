@@ -19,7 +19,7 @@ public class FileHandler {
 
         for (File files : serverDataFolder.listFiles()){
             String[] fileName = files.getName().split("-");
-            if (fileName.length > 0 && fileName[0].equals(textChannel.getId())){
+            if (fileName.length > 0 && fileName[1].contains(textChannel.getId())){
                 channelFile = files;
             }
         }
@@ -79,8 +79,19 @@ public class FileHandler {
 
     private static File getServerFolder(Guild guild) {
         assert guild != null;
-        String serverFolderName = guild.getName() + " [" + guild.getId() + "]";
-        File serverFolder = new File(getBaseFileDir() + serverFolderName);
+        File baseFileDir = new File(getBaseFileDir());
+        File serverFolder = null;
+
+        for (File file : baseFileDir.listFiles()){
+            String[] nameSplit = file.getName().split("-");
+            if (nameSplit.length > 0 && nameSplit[1].contains(guild.getId())){
+                serverFolder = file;
+            }
+        }
+
+        String serverFolderName = guild.getName() + " -[" + guild.getId() + "]";
+        if (serverFolder == null) serverFolder = new File(getBaseFileDir() + serverFolderName);
+
         if (!serverFolder.exists()) serverFolder.mkdirs();
         return serverFolder;
     }

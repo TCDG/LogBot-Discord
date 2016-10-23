@@ -68,7 +68,7 @@ public class GetCommand implements ICommand {
                 BotLogger.error("I got rate limited sending chat logs for the server: " + event.getGuild().getName());
             }
         } else {
-            MessageUtils.getNoPermissionMsg(PermissionHandler.ADMIN_PERMISSION);
+            event.getAuthor().getPrivateChannel().sendMessage(MessageUtils.getNoPermissionMsg(PermissionHandler.ADMIN_PERMISSION));
         }
     }
 
