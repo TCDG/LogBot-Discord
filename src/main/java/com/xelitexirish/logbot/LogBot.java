@@ -61,6 +61,7 @@ public class LogBot {
         commands.put("help", new HelpCommand());
         commands.put("get", new GetCommand());
         commands.put("status", new StatusCommand());
+        commands.put("purge", new PurgeCommand());
     }
 
     private static void handlePlayingMessage(){
