@@ -28,6 +28,8 @@ public class BotLogger {
             printWriter.flush();
             printWriter.close();
 
+            System.out.println(logMessage);
+
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -23,7 +23,7 @@ public class FileHandler {
 
         for (File files : serverDataFolder.listFiles()) {
             String[] fileName = files.getName().split("-");
-            if (fileName.length > 2 && fileName[1].contains(textChannel.getId())) {
+            if (fileName.length > 2 && fileName[1].contains(textChannel.getId())) { //TODO FIX THIS
                 channelFile = files;
             }
         }
@@ -76,7 +76,7 @@ public class FileHandler {
         String tempFileName = user.getUsername() + "-[" + user.getId() + "].txt";
 
         File tempLogFile = new File(getTempFolder() + "/" + tempFileName);
-
+        if (doesFileExist(tempLogFile)) tempLogFile.delete();
         if (!doesFileExist(tempLogFile)) {
             try {
                 tempLogFile.createNewFile();
@@ -117,6 +117,8 @@ public class FileHandler {
         assert guild != null;
         File baseFileDir = new File(getBaseFileDir());
         File serverFolder = null;
+
+        if (!doesFileExist(baseFileDir)) baseFileDir.mkdirs();
 
         for (File file : baseFileDir.listFiles()) {
             String[] nameSplit = file.getName().split("-");
