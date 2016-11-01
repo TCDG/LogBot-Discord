@@ -116,15 +116,21 @@ public class GetCommand implements ICommand {
 
         List<User> logUser = event.getMessage().getMentionedUsers();
         int searchLength = 0;
+        boolean multiServer = false;
+
         try {
             searchLength = Integer.parseInt(args[args.length - 1]);
         } catch (Exception e) {
+        }
+        // Check for 'multiserver' tag
+        for (String string : args){
+            if (string.equalsIgnoreCase("multiserver")) multiServer = true;
         }
 
         event.getAuthor().getPrivateChannel().sendMessage("Here are the chat logs for the user you asked for, this may take a long time:");
         for (User user : logUser) {
 
-            File logFile = FileHandler.getTempLogFile(event, user, searchLength);
+            File logFile = FileHandler.getTempLogFile(event, user, searchLength, multiServer);
             event.getAuthor().getPrivateChannel().sendFile(logFile, null);
 
             BotLogger.info(event.getAuthor().getUsername() + " asked for file: " + logFile.getName() + " on the server: " + event.getGuild().getName());

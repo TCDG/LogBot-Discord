@@ -128,29 +128,55 @@ public class DiscordLogHandler {
         }
     }
 
-    public static void writePlayerDataLog(MessageReceivedEvent event, File logFile, User user, int searchLength) {
+    public static void writePlayerDataLog(MessageReceivedEvent event, File logFile, User user, int searchLength, boolean multiServer) {
 
         if (logFile != null) {
-            for (File file : FileHandler.getAllLogFiles()) {
+            if (multiServer) {
+                for (File file : FileHandler.getAllLogFiles()) {
 
-                try {
-                    BufferedReader bufferedReader = new BufferedReader(new FileReader(file));
-                    String line;
-                    int messageLength = 0;
+                    try {
+                        BufferedReader bufferedReader = new BufferedReader(new FileReader(file));
+                        String line;
+                        int messageLength = 0;
 
-                    while ((line = bufferedReader.readLine()) != null) {
-                        messageLength++;
-                        if (line.contains(user.getUsername())) {
-                            writeStringToFile(logFile, line, "Wasn't able to write to the user log for the user: " + user.getUsername());
+                        while ((line = bufferedReader.readLine()) != null) {
+                            messageLength++;
+                            if (line.contains(user.getUsername())) {
+                                writeStringToFile(logFile, line, "Wasn't able to write to the user log for the user: " + user.getUsername());
+                            }
+
+                            if (messageLength >= searchLength && searchLength > 0) break;
+                            if (!PermissionHandler.isUserMaintainer(event.getAuthor())) {
+                                if (messageLength >= GetCommand.MAX_LENGTH) break;
+                            }
                         }
-
-                        if (messageLength >= searchLength) break;
-                        if (!PermissionHandler.isUserMaintainer(event.getAuthor())) {
-                            if (messageLength >= GetCommand.MAX_LENGTH) break;
-                        }
+                    } catch (IOException e) {
+                        BotLogger.debug("Something broke writing to player log file!", e);
                     }
-                } catch (IOException e) {
-                    BotLogger.debug("Something broke writing to player log file!", e);
+                }
+            }else {
+                for (File file : FileHandler.getAllServerLogFiles(event.getGuild())){
+
+                    try {
+                        BufferedReader bufferedReader = new BufferedReader(new FileReader(file));
+                        String line;
+                        int messageLength = 0;
+
+                        while ((line = bufferedReader.readLine()) != null){
+                            messageLength++;
+                            if (line.contains(user.getUsername())){
+                                writeStringToFile(logFile, line, "Wasn't able to write to the user log for the user: " + user.getUsername());
+                            }
+                            if (messageLength >= searchLength && searchLength > 0) break;
+                            if (!PermissionHandler.isUserMaintainer(event.getAuthor())) {
+                                if (messageLength >= GetCommand.MAX_LENGTH) break;
+                            }
+                        }
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
         }
