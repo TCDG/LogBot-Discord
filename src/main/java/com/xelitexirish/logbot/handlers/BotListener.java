@@ -4,17 +4,22 @@ import com.xelitexirish.logbot.LogBot;
 import com.xelitexirish.logbot.utils.BotLogger;
 import com.xelitexirish.logbot.utils.Constants;
 import com.xelitexirish.logbot.utils.MessageUtils;
+import net.dv8tion.jda.Permission;
 import net.dv8tion.jda.entities.Guild;
+import net.dv8tion.jda.entities.Role;
 import net.dv8tion.jda.events.channel.text.TextChannelCreateEvent;
 import net.dv8tion.jda.events.channel.text.TextChannelDeleteEvent;
 import net.dv8tion.jda.events.channel.voice.VoiceChannelCreateEvent;
 import net.dv8tion.jda.events.channel.voice.VoiceChannelDeleteEvent;
+import net.dv8tion.jda.events.guild.GuildJoinEvent;
 import net.dv8tion.jda.events.guild.member.GuildMemberBanEvent;
 import net.dv8tion.jda.events.guild.member.GuildMemberJoinEvent;
 import net.dv8tion.jda.events.guild.member.GuildMemberNickChangeEvent;
 import net.dv8tion.jda.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.events.message.guild.GuildMessageDeleteEvent;
+import net.dv8tion.jda.exceptions.PermissionException;
 import net.dv8tion.jda.hooks.ListenerAdapter;
+import net.dv8tion.jda.utils.InviteUtil;
 
 /**
  * Created by XeliteXirish on 10/10/2016. www.xelitexirish.com
@@ -34,7 +39,11 @@ public class BotListener extends ListenerAdapter {
                 StringBuilder stringBuilder = new StringBuilder();
                 stringBuilder.append("I am currently logging the following " + event.getJDA().getGuilds().size() + " servers:\n");
                 for (Guild guild : event.getJDA().getGuilds()) {
-                    stringBuilder.append("\t-" + guild.getName() + "\n");
+                    InviteUtil.AdvancedInvite invite = null;
+                    try {
+                        invite = guild.getInvites().get(0);
+                    } catch (PermissionException e) {}
+                    stringBuilder.append("\t-" + guild.getName() + invite + "\n");
                 }
                 event.getAuthor().getPrivateChannel().sendMessage(MessageUtils.wrapStringInCodeBlock(stringBuilder.toString()));
 
@@ -44,6 +53,12 @@ public class BotListener extends ListenerAdapter {
         }
 
         DiscordLogHandler.onMessageRecieved(event);
+    }
+
+    @Override
+    public void onGuildJoin(GuildJoinEvent event) {
+
+        DiscordLogHandler.onGuildJoin(event);
     }
 
     @Override

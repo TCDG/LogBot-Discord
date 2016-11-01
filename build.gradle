@@ -4,7 +4,7 @@ repositories {
     jcenter()
 }
 
-version = "1.2.1"
+version = "1.2.2"
 //create a single Jar with all dependencies (just change the MainClass)
 task fatJar(type: Jar) {
     manifest {

@@ -3,11 +3,13 @@ package com.xelitexirish.logbot.handlers;
 import com.xelitexirish.logbot.commands.GetCommand;
 import com.xelitexirish.logbot.utils.BotLogger;
 import com.xelitexirish.logbot.utils.GeneralUtils;
+import net.dv8tion.jda.entities.Guild;
 import net.dv8tion.jda.entities.User;
 import net.dv8tion.jda.events.channel.text.TextChannelCreateEvent;
 import net.dv8tion.jda.events.channel.text.TextChannelDeleteEvent;
 import net.dv8tion.jda.events.channel.voice.VoiceChannelCreateEvent;
 import net.dv8tion.jda.events.channel.voice.VoiceChannelDeleteEvent;
+import net.dv8tion.jda.events.guild.GuildJoinEvent;
 import net.dv8tion.jda.events.guild.member.GuildMemberBanEvent;
 import net.dv8tion.jda.events.guild.member.GuildMemberJoinEvent;
 import net.dv8tion.jda.events.guild.member.GuildMemberNickChangeEvent;
@@ -15,6 +17,7 @@ import net.dv8tion.jda.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.events.message.guild.GuildMessageDeleteEvent;
 
 import java.io.*;
+import java.util.ArrayList;
 
 public class DiscordLogHandler {
 
@@ -24,6 +27,14 @@ public class DiscordLogHandler {
         if (!event.getMessage().isPrivate()) {
             logMessage(event);
         }
+    }
+
+    public static void onGuildJoin(GuildJoinEvent event) {
+        String logMessage = "{" + GeneralUtils.getCurrentTime() + "} " + "{" + "I have joined the server: " + event.getGuild().getName() + "}";
+
+        File logFile = FileHandler.getServerEventLogFile(event.getGuild());
+
+        writeStringToFile(logFile, logMessage, "Wasn't able to write to the event log file for server: " + event.getGuild().getName());
     }
 
     private static void logMessage(MessageReceivedEvent event) {
@@ -131,54 +142,61 @@ public class DiscordLogHandler {
     public static void writePlayerDataLog(MessageReceivedEvent event, File logFile, User user, int searchLength, boolean multiServer) {
 
         if (logFile != null) {
-            if (multiServer) {
-                for (File file : FileHandler.getAllLogFiles()) {
+            for (String line : searchFoldersForText(event.getAuthor().getUsername(), event.getAuthor(), event.getGuild(), searchLength, multiServer)) {
+                writeStringToFile(logFile, line, "Wasn't able to write to the user log for the user: " + user.getUsername());
+            }
+        }
+    }
 
-                    try {
-                        BufferedReader bufferedReader = new BufferedReader(new FileReader(file));
-                        String line;
-                        int messageLength = 0;
+    public static ArrayList<String> searchFoldersForText(String searchText, User author, Guild guild, int searchLength, boolean multiServer) {
+        ArrayList<String> arrayListLines = new ArrayList<>();
 
-                        while ((line = bufferedReader.readLine()) != null) {
-                            messageLength++;
-                            if (line.contains(user.getUsername())) {
-                                writeStringToFile(logFile, line, "Wasn't able to write to the user log for the user: " + user.getUsername());
-                            }
+        if (multiServer) {
+            for (File file : FileHandler.getAllLogFiles()) {
 
-                            if (messageLength >= searchLength && searchLength > 0) break;
-                            if (!PermissionHandler.isUserMaintainer(event.getAuthor())) {
-                                if (messageLength >= GetCommand.MAX_LENGTH) break;
-                            }
+                try {
+                    BufferedReader bufferedReader = new BufferedReader(new FileReader(file));
+                    String line;
+                    int messageLength = 0;
+
+                    while ((line = bufferedReader.readLine()) != null) {
+                        messageLength++;
+                        if (line.contains(searchText)) {
+                            arrayListLines.add(line);
                         }
-                    } catch (IOException e) {
-                        BotLogger.debug("Something broke writing to player log file!", e);
+
+                        if (messageLength >= searchLength && searchLength > 0) break;
+                        if (!PermissionHandler.isUserMaintainer(author)) {
+                            if (messageLength >= GetCommand.MAX_LENGTH) break;
+                        }
                     }
+                } catch (IOException e) {
+                    BotLogger.debug("Something broke writing to player log file!", e);
                 }
-            }else {
-                for (File file : FileHandler.getAllServerLogFiles(event.getGuild())){
+            }
+        } else {
+            for (File file : FileHandler.getAllServerLogFiles(guild)) {
 
-                    try {
-                        BufferedReader bufferedReader = new BufferedReader(new FileReader(file));
-                        String line;
-                        int messageLength = 0;
+                try {
+                    BufferedReader bufferedReader = new BufferedReader(new FileReader(file));
+                    String line;
+                    int messageLength = 0;
 
-                        while ((line = bufferedReader.readLine()) != null){
-                            messageLength++;
-                            if (line.contains(user.getUsername())){
-                                writeStringToFile(logFile, line, "Wasn't able to write to the user log for the user: " + user.getUsername());
-                            }
-                            if (messageLength >= searchLength && searchLength > 0) break;
-                            if (!PermissionHandler.isUserMaintainer(event.getAuthor())) {
-                                if (messageLength >= GetCommand.MAX_LENGTH) break;
-                            }
+                    while ((line = bufferedReader.readLine()) != null) {
+                        messageLength++;
+                        if (line.contains(searchText)) {
+                            arrayListLines.add(line);
                         }
-                    } catch (FileNotFoundException e) {
-                        e.printStackTrace();
-                    } catch (IOException e) {
-                        e.printStackTrace();
+                        if (messageLength >= searchLength && searchLength > 0) break;
+                        if (!PermissionHandler.isUserMaintainer(author)) {
+                            if (messageLength >= GetCommand.MAX_LENGTH) break;
+                        }
                     }
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
             }
         }
+        return arrayListLines;
     }
 }

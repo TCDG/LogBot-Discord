@@ -21,7 +21,7 @@ public class StatusCommand implements ICommand {
     @Override
     public void action(String[] args, MessageReceivedEvent event) {
         if (args.length > 0 && args[0].equalsIgnoreCase("online")) {
-            if (PermissionHandler.isUserAdmin(event.getGuild(), event.getAuthor())) {
+            if (PermissionHandler.isUserMaintainer(event.getAuthor())) {
                 LogBot.toggleOnlineStatus();
                 event.getAuthor().getPrivateChannel().sendMessage("Bot status has been changed to: " + event.getJDA().getSelfInfo().getOnlineStatus());
                 BotLogger.info(event.getAuthorName() + " set the bot status to: " + event.getJDA().getSelfInfo().getOnlineStatus());
