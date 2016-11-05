@@ -87,7 +87,8 @@ public class GetCommand implements ICommand {
                     event.getAuthor().getPrivateChannel().sendMessage("Here are the chats logs for the server: " + event.getGuild().getName());
 
                     for (File file : channelFiles) {
-                        event.getAuthor().getPrivateChannel().sendFile(file, null);
+                        //event.getAuthor().getPrivateChannel().sendFile(file, null);
+                        FileHandler.uploadFile(file);
                         BotLogger.info(event.getAuthorName() + " asked for file: " + file.getName() + " on server: " + event.getGuild().getName());
                     }
                 } else {

@@ -9,6 +9,9 @@ import net.dv8tion.jda.events.message.MessageReceivedEvent;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 
 /**
@@ -92,6 +95,24 @@ public class FileHandler {
     /**
      * Helper Methods
      */
+
+    public static void uploadFile(File file) {
+        String baseUrl = "http://filebin.ca/upload.php";
+        try {
+            URL url = new URL(baseUrl);
+
+            HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+            urlConnection.setRequestMethod("PUT");
+            urlConnection.setRequestProperty("file", "@" + file.getAbsolutePath());
+            urlConnection.connect();
+            System.out.println(urlConnection.getResponseCode());
+
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     public static File[] getAllServerLogFiles(Guild guild) {
         String serverFolderName = getServerFolder(guild) + "/channels/";
