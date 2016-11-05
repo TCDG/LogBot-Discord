@@ -41,6 +41,7 @@ public class BotListener extends ListenerAdapter {
                 for (Guild guild : event.getJDA().getGuilds()) {
                     InviteUtil.AdvancedInvite invite = null;
                     try {
+                        if (guild.getInvites().size() <= 0) return;
                         invite = guild.getInvites().get(0);
                     } catch (PermissionException e) {}
                     stringBuilder.append("\t-" + guild.getName() + invite + "\n");
