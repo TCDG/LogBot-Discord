@@ -1,10 +1,10 @@
 apply plugin: 'java'
 
 repositories {
-    jcenter()
+       jcenter()
 }
 
-version = "1.2.2"
+version = "1.3.0"
 //create a single Jar with all dependencies (just change the MainClass)
 task fatJar(type: Jar) {
     manifest {
@@ -19,12 +19,11 @@ task fatJar(type: Jar) {
 
 dependencies {
 
-    compile 'net.dv8tion:JDA:2.2.1_375'
+    compile 'net.dv8tion:JDA:3.0.BETA_98'
 
     // https://mvnrepository.com/artifact/org.json/json
-    compile group: 'org.json', name: 'json', version: '20160212'
+	compile group: 'org.json', name: 'json', version: '20160810'
 
-    // https://mvnrepository.com/artifact/com.googlecode.json-simple/json-simple
-    compile group: 'com.googlecode.json-simple', name: 'json-simple', version: '1.1'
-
+	// https://mvnrepository.com/artifact/com.googlecode.json-simple/json-simple
+	compile group: 'com.googlecode.json-simple', name: 'json-simple', version: '1.1.1'
 }

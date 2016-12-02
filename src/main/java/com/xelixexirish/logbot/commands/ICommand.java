@@ -1,13 +1,10 @@
 package com.xelitexirish.logbot.commands;
 
-import net.dv8tion.jda.events.message.MessageReceivedEvent;
+import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 
-/**
- * Created by XeliteXirish on 12/10/2016. www.xelitexirish.com
- */
 public interface ICommand {
 
-    boolean called(String[] args, MessageReceivedEvent event);
+	boolean called(String[] args, MessageReceivedEvent event);
 
     void action(String[] args, MessageReceivedEvent event);
 

@@ -1,48 +1,43 @@
 package com.xelitexirish.logbot.handlers;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+
+import net.dv8tion.jda.core.entities.ChannelType;
+import net.dv8tion.jda.core.entities.User;
+import net.dv8tion.jda.core.events.channel.text.TextChannelCreateEvent;
+import net.dv8tion.jda.core.events.channel.text.TextChannelDeleteEvent;
+import net.dv8tion.jda.core.events.channel.voice.VoiceChannelCreateEvent;
+import net.dv8tion.jda.core.events.channel.voice.VoiceChannelDeleteEvent;
+import net.dv8tion.jda.core.events.guild.GuildBanEvent;
+import net.dv8tion.jda.core.events.guild.member.GuildMemberJoinEvent;
+import net.dv8tion.jda.core.events.guild.member.GuildMemberNickChangeEvent;
+import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
+import net.dv8tion.jda.core.events.message.guild.GuildMessageDeleteEvent;
 import com.xelitexirish.logbot.commands.GetCommand;
 import com.xelitexirish.logbot.utils.BotLogger;
 import com.xelitexirish.logbot.utils.GeneralUtils;
-import net.dv8tion.jda.entities.Guild;
-import net.dv8tion.jda.entities.User;
-import net.dv8tion.jda.events.channel.text.TextChannelCreateEvent;
-import net.dv8tion.jda.events.channel.text.TextChannelDeleteEvent;
-import net.dv8tion.jda.events.channel.voice.VoiceChannelCreateEvent;
-import net.dv8tion.jda.events.channel.voice.VoiceChannelDeleteEvent;
-import net.dv8tion.jda.events.guild.GuildJoinEvent;
-import net.dv8tion.jda.events.guild.member.GuildMemberBanEvent;
-import net.dv8tion.jda.events.guild.member.GuildMemberJoinEvent;
-import net.dv8tion.jda.events.guild.member.GuildMemberNickChangeEvent;
-import net.dv8tion.jda.events.message.MessageReceivedEvent;
-import net.dv8tion.jda.events.message.guild.GuildMessageDeleteEvent;
-
-import java.io.*;
-import java.util.ArrayList;
 
 public class DiscordLogHandler {
 
-    public static void onMessageRecieved(MessageReceivedEvent event) {
-
-        //FileHandler.createNewChannel(event.getGuild(), event.getTextChannel());
-        if (!event.getMessage().isPrivate()) {
+	
+	public static void onMessageReceived(MessageReceivedEvent event) {
+		
+		if (!event.getMessage().getChannelType().equals(ChannelType.PRIVATE)) {
             logMessage(event);
         }
-    }
+	}
+	
+	private static void logMessage(MessageReceivedEvent event) {
 
-    public static void onGuildJoin(GuildJoinEvent event) {
-        String logMessage = "{" + GeneralUtils.getCurrentTime() + "} " + "{" + "I have joined the server: " + event.getGuild().getName() + "}";
+        String logMessage = "{" + GeneralUtils.getCurrentTime() + "} " + "{" + event.getGuild().getName() + "-" + event.getTextChannel() + "] " + "[" + event.getAuthor().getName() + "] " + event.getMessage().getContent();
 
-        File logFile = FileHandler.getServerEventLogFile(event.getGuild());
-
-        writeStringToFile(logFile, logMessage, "Wasn't able to write to the event log file for server: " + event.getGuild().getName());
-    }
-
-    private static void logMessage(MessageReceivedEvent event) {
-
-        String logMessage = "{" + GeneralUtils.getCurrentTime() + "} " + "{" + event.getGuild().getName() + "-" + event.getTextChannel() + "] " + "[" + event.getAuthor().getUsername() + "] " + event.getMessage().getContent();
-
-        if (VipHandler.isUserVip(event.getGuild(), event.getAuthor())) {
-            logMessage = "{VIP}" + logMessage;
+        if (VIPHandler.isUserVip(event.getGuild(), event.getAuthor())) {
+            logMessage = "{VIP} " + logMessage;
         }
 
         File logFile = FileHandler.getLogFile(event.getGuild(), event.getTextChannel());
@@ -51,16 +46,16 @@ public class DiscordLogHandler {
     }
 
     public static void onMemberJoin(GuildMemberJoinEvent event) {
-        String logMessage = "{" + GeneralUtils.getCurrentTime() + "} " + "User: " + event.getUser().getUsername() + " has joined the server: " + event.getGuild().getName();
+        String logMessage = "{" + GeneralUtils.getCurrentTime() + "} " + "User: " + event.getMember().getUser().getName() + " has joined the server: " + event.getGuild().getName();
 
         File logFile = FileHandler.getServerEventLogFile(event.getGuild());
 
         writeStringToFile(logFile, logMessage, "Wasn't able to write to the event log file for server: " + event.getGuild().getName());
     }
 
-    public static void onMemberBan(GuildMemberBanEvent event) {
+    public static void onMemberBan(GuildBanEvent event) {
 
-        String logMessage = "{" + GeneralUtils.getCurrentTime() + "} " + "User: " + event.getUser().getUsername() + " has been banned on the server: " + event.getGuild().getName();
+        String logMessage = "{" + GeneralUtils.getCurrentTime() + "} " + "User: " + event.getUser().getName() + " has been banned on the server: " + event.getGuild().getName();
 
         File logFile = FileHandler.getServerEventLogFile(event.getGuild());
 
@@ -113,7 +108,7 @@ public class DiscordLogHandler {
 
     public static void onUsernameUpdate(GuildMemberNickChangeEvent event) {
 
-        String logMessage = "{" + GeneralUtils.getCurrentTime() + "} " + "The user: " + event.getUser().getUsername() + " changed their username to: " + event.getNewNick() + " on the server: " + event.getGuild().getName();
+        String logMessage = "{" + GeneralUtils.getCurrentTime() + "} " + "The user: " + event.getMember().getUser() + " changed their username to: " + event.getNewNick() + " on the server: " + event.getGuild().getName();
 
         File logFile = FileHandler.getServerEventLogFile(event.getGuild());
 
@@ -139,34 +134,25 @@ public class DiscordLogHandler {
         }
     }
 
-    public static void writePlayerDataLog(MessageReceivedEvent event, File logFile, User user, int searchLength, boolean multiServer) {
+    public static void writePlayerDataLog(MessageReceivedEvent event, File logFile, User user, int searchLength) {
 
         if (logFile != null) {
-            for (String line : searchFoldersForText(event.getAuthor().getUsername(), event.getAuthor(), event.getGuild(), searchLength, multiServer)) {
-                writeStringToFile(logFile, line, "Wasn't able to write to the user log for the user: " + user.getUsername());
-            }
-        }
-    }
-
-    public static ArrayList<String> searchFoldersForText(String searchText, User author, Guild guild, int searchLength, boolean multiServer) {
-        ArrayList<String> arrayListLines = new ArrayList<>();
-
-        if (multiServer) {
             for (File file : FileHandler.getAllLogFiles()) {
 
                 try {
-                    BufferedReader bufferedReader = new BufferedReader(new FileReader(file));
+                    @SuppressWarnings("resource")
+					BufferedReader bufferedReader = new BufferedReader(new FileReader(file));
                     String line;
                     int messageLength = 0;
 
                     while ((line = bufferedReader.readLine()) != null) {
                         messageLength++;
-                        if (line.contains(searchText)) {
-                            arrayListLines.add(line);
+                        if (line.contains(user.getName())) {
+                            writeStringToFile(logFile, line, "Wasn't able to write to the user log for the user: " + user.getName());
                         }
 
-                        if (messageLength >= searchLength && searchLength > 0) break;
-                        if (!PermissionHandler.isUserMaintainer(author)) {
+                        if (messageLength >= searchLength) break;
+                        if (!PermissionHandler.isUserMaintainer(event.getAuthor())) {
                             if (messageLength >= GetCommand.MAX_LENGTH) break;
                         }
                     }
@@ -174,29 +160,6 @@ public class DiscordLogHandler {
                     BotLogger.debug("Something broke writing to player log file!", e);
                 }
             }
-        } else {
-            for (File file : FileHandler.getAllServerLogFiles(guild)) {
-
-                try {
-                    BufferedReader bufferedReader = new BufferedReader(new FileReader(file));
-                    String line;
-                    int messageLength = 0;
-
-                    while ((line = bufferedReader.readLine()) != null) {
-                        messageLength++;
-                        if (line.contains(searchText)) {
-                            arrayListLines.add(line);
-                        }
-                        if (messageLength >= searchLength && searchLength > 0) break;
-                        if (!PermissionHandler.isUserMaintainer(author)) {
-                            if (messageLength >= GetCommand.MAX_LENGTH) break;
-                        }
-                    }
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
         }
-        return arrayListLines;
     }
 }

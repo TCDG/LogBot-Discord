@@ -5,12 +5,9 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-/**
- * Created by XeliteXirish on 23/10/2016. www.xelitexirish.com
- */
 public class GeneralUtils {
 
-    public static String getCurrentTime() {
+	public static String getCurrentTime() {
         return new SimpleDateFormat("yyyy:MM:dd - HH:mm:ss").format(Calendar.getInstance().getTime());
     }
 

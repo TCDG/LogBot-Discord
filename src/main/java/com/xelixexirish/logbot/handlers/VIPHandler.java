@@ -1,63 +1,67 @@
 package com.xelitexirish.logbot.handlers;
 
-import com.xelitexirish.logbot.utils.BotLogger;
-import net.dv8tion.jda.entities.Guild;
-import net.dv8tion.jda.entities.User;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-import java.io.*;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import net.dv8tion.jda.core.entities.Guild;
+import net.dv8tion.jda.core.entities.User;
+import com.xelitexirish.logbot.utils.BotLogger;
 
-/**
- * Created by XeliteXirish on 11/10/2016. www.xelitexirish.com
- */
-public class VipHandler {
+public class VIPHandler {
 
-    private static final List<String> vipUsers = new ArrayList<String>();
+	
+	private static final List<String> vipUsers = new ArrayList<String>();
 
-    public static void addUserToVip(Guild guild, User author, User vip) {
-        String userInfo = vip.getId() + ":" + vip.getUsername();
+    public static void addUserToVip(Guild guild, User author, User user) {
+    	user.openPrivateChannel();
+        String userInfo = user.getId() + ":" + user.getName();
 
-        vipUsers.clear();
+        //vipUsers.clear();
         loadVipListData(guild);
 
         if (vipUsers.contains(userInfo)) {
-            author.getPrivateChannel().sendMessage("That user is already on the VIP list for this server.");
+            author.getPrivateChannel().sendMessage("That user is already on the VIP list for this server.").queue();
         } else {
             vipUsers.add(userInfo);
-            author.getPrivateChannel().sendMessage(vip.getUsername() + " is now added to the vip list, this will only effect FUTURE logs.");
+            author.getPrivateChannel().sendMessage(user.getName() + " is now added to the VIP list, this will only effect FUTURE logs.").queue();
         }
         writeVipList(guild);
     }
+    
+    public static void removeUserFromVip(Guild guild, User author, User user) {
+    	user.openPrivateChannel();
+        String userInfo = user.getId() + ":" + user.getName();
 
-    public static void removeUserFromVip(Guild guild, User author, User vip) {
-        String userInfo = vip.getId() + ":" + vip.getUsername();
-
-        vipUsers.clear();
+        //vipUsers.clear();
         loadVipListData(guild);
 
         if (vipUsers.contains(userInfo)) {
             vipUsers.remove(userInfo);
-            author.getPrivateChannel().sendMessage(vip.getUsername() + " is now removed from the vip list, this will only effect FUTURE logs.");
+            author.getPrivateChannel().sendMessage(user.getName() + " is now removed from the VIP list, this will only effect FUTURE logs.").queue();
         } else {
-            author.getPrivateChannel().sendMessage("That user is currently not on the VIP list.");
+            author.getPrivateChannel().sendMessage("That user is currently not on the VIP list.").queue();
         }
         writeVipList(guild);
     }
 
     public static boolean isUserVip(Guild guild, User user){
-        vipUsers.clear();
+        //vipUsers.clear();
         loadVipListData(guild);
 
-        return vipUsers.contains(user.getId() + ":" + user.getUsername());
+        return vipUsers.contains(user.getId() + ":" + user.getName());
     }
 
-    private static void loadVipListData(Guild guild) {
+	@SuppressWarnings("unchecked")
+	private static void loadVipListData(Guild guild) {
         try {
             writeVipList(guild);
 
@@ -105,5 +109,4 @@ public class VipHandler {
             BotLogger.debug("I wasn't able to load the vip data for the server: " + guild.getName(), e);
         }
     }
-
 }

@@ -1,15 +1,12 @@
 package com.xelitexirish.logbot.utils;
 
-import net.dv8tion.jda.events.message.MessageReceivedEvent;
-
 import java.util.ArrayList;
 
-/**
- * Created by XeliteXirish on 12/10/2016. www.xelitexirish.com
- */
+import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
+
 public class CommandParser {
 
-    public CommandContainer parse(String rw, MessageReceivedEvent event) {
+	public CommandContainer parse(String rw, MessageReceivedEvent event) {
         ArrayList<String> split = new ArrayList<>();
         String raw = rw;
         String beheaded = raw.replaceFirst(Constants.COMMAND_PREFIX, "");
@@ -18,7 +15,7 @@ public class CommandParser {
         String invoke = split.get(0);
         String[] args = new String[split.size() - 1];
         split.subList(1, split.size()).toArray(args);
-
+      
         return new CommandContainer(raw, beheaded, splitBeheaded, invoke, args, event);
     }
 
