@@ -29,9 +29,13 @@ public class StatusCommand implements ICommand {
                 MessageUtils.getNoPermissionMsg(PermissionHandler.ADMIN_PERMISSION);
             }
         } else if (args.length > 0 && args[0].equalsIgnoreCase("offline")) {
-        	LogBot.setOfflineStatus();
-        	event.getAuthor().getPrivateChannel().sendMessage("Bot status has been changed to: " + event.getJDA().getPresence().getStatus()).queue();
-        	BotLogger.info(event.getAuthor().getName() + " set the bot status to: " + event.getJDA().getPresence().getStatus());
+        	if (PermissionHandler.isUserAdmin(event.getGuild(), event.getAuthor())) {
+        		LogBot.setOfflineStatus();
+        		event.getAuthor().getPrivateChannel().sendMessage("Bot status has been changed to: " + event.getJDA().getPresence().getStatus()).queue();
+        		BotLogger.info(event.getAuthor().getName() + " set the bot status to: " + event.getJDA().getPresence().getStatus());
+        	} else {
+        		MessageUtils.getNoPermissionMsg(PermissionHandler.ADMIN_PERMISSION);
+        	}
         } else {
             event.getTextChannel().sendMessage(MessageUtils.wrapStringInCodeBlock(getStatusText(event), "css")).queue();
         }
