@@ -22,23 +22,27 @@ public class VIPHandler {
 	private static final List<String> vipUsers = new ArrayList<String>();
 
     public static void addUserToVip(Guild guild, User author, User user) {
-    	user.openPrivateChannel();
         String userInfo = user.getId() + ":" + user.getName();
 
         //vipUsers.clear();
         loadVipListData(guild);
 
         if (vipUsers.contains(userInfo)) {
+        	if (!author.hasPrivateChannel()) {
+        		author.openPrivateChannel().queue();
+        	}
             author.getPrivateChannel().sendMessage("That user is already on the VIP list for this server.").queue();
         } else {
             vipUsers.add(userInfo);
+            if (!author.hasPrivateChannel()) {
+        		author.openPrivateChannel().queue();
+        	}
             author.getPrivateChannel().sendMessage(user.getName() + " is now added to the VIP list, this will only effect FUTURE logs.").queue();
         }
         writeVipList(guild);
     }
     
     public static void removeUserFromVip(Guild guild, User author, User user) {
-    	user.openPrivateChannel();
         String userInfo = user.getId() + ":" + user.getName();
 
         //vipUsers.clear();
@@ -46,13 +50,19 @@ public class VIPHandler {
 
         if (vipUsers.contains(userInfo)) {
             vipUsers.remove(userInfo);
+            if (!author.hasPrivateChannel()) {
+            	author.openPrivateChannel().queue();
+        	}
             author.getPrivateChannel().sendMessage(user.getName() + " is now removed from the VIP list, this will only effect FUTURE logs.").queue();
         } else {
+        	if (!author.hasPrivateChannel()) {
+        		author.openPrivateChannel().queue();
+        	}
             author.getPrivateChannel().sendMessage("That user is currently not on the VIP list.").queue();
         }
         writeVipList(guild);
     }
-
+    
     public static boolean isUserVip(Guild guild, User user){
         //vipUsers.clear();
         loadVipListData(guild);

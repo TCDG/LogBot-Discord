@@ -19,11 +19,16 @@ public class StatusCommand implements ICommand {
 
 	@Override
 	public void action(String[] args, MessageReceivedEvent event) {
-		event.getAuthor().openPrivateChannel();
 		if (args.length > 0 && args[0].equalsIgnoreCase("online")) {
             if (PermissionHandler.isUserAdmin(event.getGuild(), event.getAuthor())) {
                 LogBot.setOnlineStatus();
-                event.getAuthor().getPrivateChannel().sendMessage("Bot status has been changed to: " + event.getJDA().getPresence().getStatus()).queue();
+                if (!event.getAuthor().hasPrivateChannel()) {
+                	event.getAuthor().openPrivateChannel().queue(channel -> {
+                		channel.sendMessage("Bot status has been changed to: " + event.getJDA().getPresence().getStatus()).queue();
+                	});
+            	} else {
+            		event.getAuthor().getPrivateChannel().sendMessage("Bot status has been changed to: " + event.getJDA().getPresence().getStatus()).queue();
+            	}      
                 BotLogger.info(event.getAuthor().getName() + " set the bot status to: " + event.getJDA().getPresence().getStatus());
             } else {
                 MessageUtils.getNoPermissionMsg(PermissionHandler.ADMIN_PERMISSION);
@@ -31,7 +36,13 @@ public class StatusCommand implements ICommand {
         } else if (args.length > 0 && args[0].equalsIgnoreCase("offline")) {
         	if (PermissionHandler.isUserAdmin(event.getGuild(), event.getAuthor())) {
         		LogBot.setOfflineStatus();
-        		event.getAuthor().getPrivateChannel().sendMessage("Bot status has been changed to: " + event.getJDA().getPresence().getStatus()).queue();
+        		if (!event.getAuthor().hasPrivateChannel()) {
+        			event.getAuthor().openPrivateChannel().queue(channel -> {
+        				channel.sendMessage("Bot status has been changed to: " + event.getJDA().getPresence().getStatus()).queue();
+        			});
+            	} else {
+            		event.getAuthor().getPrivateChannel().sendMessage("Bot status has been changed to: " + event.getJDA().getPresence().getStatus()).queue();
+            	}
         		BotLogger.info(event.getAuthor().getName() + " set the bot status to: " + event.getJDA().getPresence().getStatus());
         	} else {
         		MessageUtils.getNoPermissionMsg(PermissionHandler.ADMIN_PERMISSION);

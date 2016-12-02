@@ -62,12 +62,12 @@ public class HelpCommand implements ICommand {
     private static void sendHelpMessage(MessageReceivedEvent event, ICommand command) {
         if (command != null) {
             if (command.help() != null) {
-                event.getTextChannel().sendMessage(command.help()).queue();;
+                event.getTextChannel().sendMessage(command.help()).queue();
             } else {
-                event.getTextChannel().sendMessage("Sorry there is no info available for this command, please contact a bot administrator.").queue();;
+                event.getTextChannel().sendMessage("Sorry there is no info available for this command, please contact a bot administrator.").queue();
             }
         } else {
-            event.getTextChannel().sendMessage("Sorry but that is not a recognised command!").queue();;
+            event.getTextChannel().sendMessage("Sorry but that is not a recognised command!").queue();
         }
     }
 
