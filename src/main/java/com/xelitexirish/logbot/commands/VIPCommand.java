@@ -19,7 +19,6 @@ public class VIPCommand implements ICommand {
 
 	@Override
 	public void action(String[] args, MessageReceivedEvent event) {
-		event.getAuthor().openPrivateChannel();
 		if (args.length >= 1) {
             if (PermissionHandler.isUserAdmin(event.getGuild(), event.getAuthor())) {
                 if (args[0].equalsIgnoreCase("add")) {
@@ -32,7 +31,13 @@ public class VIPCommand implements ICommand {
                         if (vipUser != null) {
                             VIPHandler.addUserToVip(event.getGuild(), event.getAuthor(), vipUser);
                         } else {
-                            event.getAuthor().getPrivateChannel().sendMessage("No user found with id: " + args[1] + " on server: " + event.getGuild().getName()).queue();
+                        	if (!event.getAuthor().hasPrivateChannel()) {
+                        		event.getAuthor().openPrivateChannel().queue(channel -> {
+                        			channel.sendMessage("No user found with id: " + args[1] + " on server: " + event.getGuild().getName()).queue();
+                        		});
+                        	} else {
+                        		 event.getAuthor().getPrivateChannel().sendMessage("No user found with id: " + args[1] + " on server: " + event.getGuild().getName()).queue();
+                        	}
                         }
                     }
                     BotLogger.info("Adding user to VIP list for server: " + event.getGuild().getName());
@@ -47,14 +52,25 @@ public class VIPCommand implements ICommand {
                         if (vipUser != null) {
                             VIPHandler.removeUserFromVip(event.getGuild(), event.getAuthor(), vipUser);
                         } else {
-                            event.getAuthor().getPrivateChannel().sendMessage("No user found with id: " + args[1] + " on server: " + event.getGuild().getName()).queue();
+                        	if (!event.getAuthor().hasPrivateChannel()) {
+                        		event.getAuthor().openPrivateChannel().queue(channel -> {
+                        			channel.sendMessage("No user found with id: " + args[1] + " on server: " + event.getGuild().getName()).queue();
+                        		});
+                        	} else {
+                        		 event.getAuthor().getPrivateChannel().sendMessage("No user found with id: " + args[1] + " on server: " + event.getGuild().getName()).queue();
+                        	}
                         }
                     }
-
                     BotLogger.info("Removing user from VIP list for server: " + event.getGuild().getName());
                 }
-            }else {
-                event.getAuthor().getPrivateChannel().sendMessage(MessageUtils.getNoPermissionMsg(PermissionHandler.ADMIN_PERMISSION)).queue();
+            } else {
+            	if (!event.getAuthor().hasPrivateChannel()) {
+            		event.getAuthor().openPrivateChannel().queue(channel -> {
+            			channel.sendMessage(MessageUtils.getNoPermissionMsg(PermissionHandler.ADMIN_PERMISSION)).queue();
+            		});
+            	} else {
+                    event.getAuthor().getPrivateChannel().sendMessage(MessageUtils.getNoPermissionMsg(PermissionHandler.ADMIN_PERMISSION)).queue();
+            	}
             }
         } else {
             MessageUtils.usefulError(event.getAuthor(), "`" + Constants.COMMAND_PREFIX + "vip add <mentioned user>`\n" + Constants.COMMAND_PREFIX + "vip add <user id>`\nor\n`" + Constants.COMMAND_PREFIX + "vip remove <mentioned user>`\n`" + Constants.COMMAND_PREFIX + "vip remove <user id>");

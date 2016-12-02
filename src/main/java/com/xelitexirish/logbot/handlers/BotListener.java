@@ -37,17 +37,31 @@ public class BotListener extends ListenerAdapter {
                     stringBuilder.append("\t-" + guild.getName() + "\n");
                 }
                 try {
-					event.getAuthor().getPrivateChannel().sendMessage(MessageUtils.wrapStringInCodeBlock(stringBuilder.toString())).block();
+                	if (!event.getAuthor().hasPrivateChannel()) {
+                		event.getAuthor().openPrivateChannel().queue(channel -> {
+                			try {
+								channel.sendMessage(MessageUtils.wrapStringInCodeBlock(stringBuilder.toString())).block();
+							} catch (RateLimitedException e) {
+								e.printStackTrace();
+							}
+                		});
+                	} else {
+    					event.getAuthor().getPrivateChannel().sendMessage(MessageUtils.wrapStringInCodeBlock(stringBuilder.toString())).block();
+                	}
 				} catch (RateLimitedException e) {
 					e.printStackTrace();
 				}
                 BotLogger.debug(stringBuilder.toString());
-
             } else {
-                event.getAuthor().getPrivateChannel().sendMessage("Sorry but I can't recognise any command or input you make unless it's made in a guild channel! I need to make sure you have permission!").queue();
+            	if (!event.getAuthor().hasPrivateChannel()) {
+            		event.getAuthor().openPrivateChannel().queue(channel -> {
+            			channel.sendMessage("Sorry but I can't recognise any command or input you make unless it's made in a guild channel! I need to make sure you have permission!").queue();
+            		});
+            	} else {
+            		event.getAuthor().getPrivateChannel().sendMessage("Sorry but I can't recognise any command or input you make unless it's made in a guild channel! I need to make sure you have permission!").queue();
+            	}        
             }
         }
-
         DiscordLogHandler.onMessageReceived(event);
     }
 
