@@ -1,4 +1,4 @@
-package kingdgrizzle.logbot.handlers;
+package com.xelitexirish.logbot.handlers;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -18,9 +18,9 @@ import net.dv8tion.jda.core.events.guild.member.GuildMemberJoinEvent;
 import net.dv8tion.jda.core.events.guild.member.GuildMemberNickChangeEvent;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageDeleteEvent;
-import kingdgrizzle.logbot.commands.GetCommand;
-import kingdgrizzle.logbot.utils.BotLogger;
-import kingdgrizzle.logbot.utils.GeneralUtils;
+import com.xelitexirish.logbot.commands.GetCommand;
+import com.xelitexirish.logbot.utils.BotLogger;
+import com.xelitexirish.logbot.utils.GeneralUtils;
 
 public class DiscordLogHandler {
 

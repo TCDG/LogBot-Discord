@@ -1,4 +1,4 @@
-package kingdgrizzle.logbot.utils;
+package com.xelitexirish.logbot.utils;
 
 import java.io.File;
 import java.text.SimpleDateFormat;

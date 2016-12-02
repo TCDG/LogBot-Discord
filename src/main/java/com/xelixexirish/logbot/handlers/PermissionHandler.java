@@ -1,11 +1,11 @@
-package kingdgrizzle.logbot.handlers;
+package com.xelitexirish.logbot.handlers;
 
-import kingdgrizzle.logbot.LogBot;
+import com.xelitexirish.logbot.LogBot;
 import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.Role;
 import net.dv8tion.jda.core.entities.User;
-import kingdgrizzle.logbot.utils.Constants;
+import com.xelitexirish.logbot.utils.Constants;
 
 public class PermissionHandler {
 	

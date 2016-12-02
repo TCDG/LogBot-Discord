@@ -1,11 +1,11 @@
-package kingdgrizzle.logbot.commands;
+package com.xelitexirish.logbot.commands;
 
-import kingdgrizzle.logbot.LogBot;
-import kingdgrizzle.logbot.handlers.PermissionHandler;
-import kingdgrizzle.logbot.utils.BotLogger;
-import kingdgrizzle.logbot.utils.Constants;
-import kingdgrizzle.logbot.utils.GeneralUtils;
-import kingdgrizzle.logbot.utils.MessageUtils;
+import com.xelitexirish.logbot.LogBot;
+import com.xelitexirish.logbot.handlers.PermissionHandler;
+import com.xelitexirish.logbot.utils.BotLogger;
+import com.xelitexirish.logbot.utils.Constants;
+import com.xelitexirish.logbot.utils.GeneralUtils;
+import com.xelitexirish.logbot.utils.MessageUtils;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 
 public class StatusCommand implements ICommand {

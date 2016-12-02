@@ -1,8 +1,8 @@
-package kingdgrizzle.logbot.commands;
+package com.xelitexirish.logbot.commands;
 
-import kingdgrizzle.logbot.LogBot;
-import kingdgrizzle.logbot.utils.Constants;
-import kingdgrizzle.logbot.utils.MessageUtils;
+import com.xelitexirish.logbot.LogBot;
+import com.xelitexirish.logbot.utils.Constants;
+import com.xelitexirish.logbot.utils.MessageUtils;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 

@@ -1,6 +1,6 @@
-package kingdgrizzle.logbot.handlers;
+package com.xelitexirish.logbot.handlers;
 
-import kingdgrizzle.logbot.LogBot;
+import com.xelitexirish.logbot.LogBot;
 import net.dv8tion.jda.core.entities.ChannelType;
 import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.Message;
@@ -15,9 +15,9 @@ import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageDeleteEvent;
 import net.dv8tion.jda.core.exceptions.RateLimitedException;
 import net.dv8tion.jda.core.hooks.ListenerAdapter;
-import kingdgrizzle.logbot.utils.BotLogger;
-import kingdgrizzle.logbot.utils.Constants;
-import kingdgrizzle.logbot.utils.MessageUtils;
+import com.xelitexirish.logbot.utils.BotLogger;
+import com.xelitexirish.logbot.utils.Constants;
+import com.xelitexirish.logbot.utils.MessageUtils;
 
 public class BotListener extends ListenerAdapter {
 

@@ -1,4 +1,4 @@
-package kingdgrizzle.logbot.handlers;
+package com.xelitexirish.logbot.handlers;
 
 import java.io.File;
 import java.io.FileReader;

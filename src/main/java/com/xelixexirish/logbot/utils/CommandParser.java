@@ -1,4 +1,4 @@
-package kingdgrizzle.logbot.utils;
+package com.xelitexirish.logbot.utils;
 
 import java.util.ArrayList;
 

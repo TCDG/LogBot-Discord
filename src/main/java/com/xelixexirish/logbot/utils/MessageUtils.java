@@ -1,4 +1,4 @@
-package kingdgrizzle.logbot.utils;
+package com.xelitexirish.logbot.utils;
 
 import net.dv8tion.jda.core.MessageBuilder;
 import net.dv8tion.jda.core.Permission;

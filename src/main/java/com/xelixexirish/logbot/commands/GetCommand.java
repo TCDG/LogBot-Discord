@@ -1,4 +1,4 @@
-package kingdgrizzle.logbot.commands;
+package com.xelitexirish.logbot.commands;
 
 import java.io.File;
 import java.io.IOException;
@@ -9,10 +9,10 @@ import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 //import net.dv8tion.jda.core.exceptions.RateLimitedException;
-import kingdgrizzle.logbot.handlers.FileHandler;
-import kingdgrizzle.logbot.handlers.PermissionHandler;
-import kingdgrizzle.logbot.utils.BotLogger;
-import kingdgrizzle.logbot.utils.MessageUtils;
+import com.xelitexirish.logbot.handlers.FileHandler;
+import com.xelitexirish.logbot.handlers.PermissionHandler;
+import com.xelitexirish.logbot.utils.BotLogger;
+import com.xelitexirish.logbot.utils.MessageUtils;
 
 public class GetCommand implements ICommand {
 

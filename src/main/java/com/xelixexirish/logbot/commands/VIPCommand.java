@@ -1,10 +1,10 @@
-package kingdgrizzle.logbot.commands;
+package com.xelitexirish.logbot.commands;
 
-import kingdgrizzle.logbot.handlers.PermissionHandler;
-import kingdgrizzle.logbot.handlers.VIPHandler;
-import kingdgrizzle.logbot.utils.BotLogger;
-import kingdgrizzle.logbot.utils.Constants;
-import kingdgrizzle.logbot.utils.MessageUtils;
+import com.xelitexirish.logbot.handlers.PermissionHandler;
+import com.xelitexirish.logbot.handlers.VIPHandler;
+import com.xelitexirish.logbot.utils.BotLogger;
+import com.xelitexirish.logbot.utils.Constants;
+import com.xelitexirish.logbot.utils.MessageUtils;
 import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 

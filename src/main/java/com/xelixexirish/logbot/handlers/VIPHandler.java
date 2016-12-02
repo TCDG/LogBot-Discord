@@ -1,4 +1,4 @@
-package kingdgrizzle.logbot.handlers;
+package com.xelitexirish.logbot.handlers;
 
 import java.io.File;
 import java.io.FileReader;
@@ -14,7 +14,7 @@ import org.json.simple.parser.ParseException;
 
 import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.User;
-import kingdgrizzle.logbot.utils.BotLogger;
+import com.xelitexirish.logbot.utils.BotLogger;
 
 public class VIPHandler {
 

@@ -1,10 +1,4 @@
-/**
- * This class was created by <KingDGrizzle>. It's distributed as
- * part of the LogBot Port.
- * 
- * File Created @ [1 dec. 2016, 22:24:34 (GMT)]
- */
-package kingdgrizzle.logbot.commands;
+package com.xelitexirish.logbot.commands;
 
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 

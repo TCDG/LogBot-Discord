@@ -1,4 +1,4 @@
-package kingdgrizzle.logbot;
+package com.xelitexirish.logbot;
 
 import java.util.HashMap;
 import java.util.Random;
@@ -12,16 +12,16 @@ import net.dv8tion.jda.core.OnlineStatus;
 import net.dv8tion.jda.core.entities.Game;
 import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.TextChannel;
-import kingdgrizzle.logbot.commands.GetCommand;
-import kingdgrizzle.logbot.commands.HelpCommand;
-import kingdgrizzle.logbot.commands.ICommand;
-import kingdgrizzle.logbot.commands.PurgeCommand;
-import kingdgrizzle.logbot.commands.StatusCommand;
-import kingdgrizzle.logbot.commands.VIPCommand;
-import kingdgrizzle.logbot.handlers.BotListener;
-import kingdgrizzle.logbot.handlers.ConfigHandler;
-import kingdgrizzle.logbot.utils.BotLogger;
-import kingdgrizzle.logbot.utils.CommandParser;
+import com.xelitexirish.logbot.commands.GetCommand;
+import com.xelitexirish.logbot.commands.HelpCommand;
+import com.xelitexirish.logbot.commands.ICommand;
+import com.xelitexirish.logbot.commands.PurgeCommand;
+import com.xelitexirish.logbot.commands.StatusCommand;
+import com.xelitexirish.logbot.commands.VIPCommand;
+import com.xelitexirish.logbot.handlers.BotListener;
+import com.xelitexirish.logbot.handlers.ConfigHandler;
+import com.xelitexirish.logbot.utils.BotLogger;
+import com.xelitexirish.logbot.utils.CommandParser;
 
 public class LogBot {
 
