@@ -22,7 +22,7 @@ I created this because I wanted to test with multi-server bots but taught of a f
 ## Credits
 
 Author: XeliteXirish (www.xelitexirish.com)
-Maintainer: KingDGrizzel
+Maintainer: KingDGrizzle
 
 ## License
 Everything in this repo is BSD style license unless otherwise specified.
