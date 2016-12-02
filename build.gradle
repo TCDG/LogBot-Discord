@@ -6,7 +6,7 @@ repositories {
 
 version = "1.3.0"
 //create a single Jar with all dependencies (just change the MainClass)
-task fat(type: Jar) {
+task fatJar(type: Jar) {
     manifest {
         attributes 'Implementation-Title': 'LogBot',
                 'Implementation-Version': version,
