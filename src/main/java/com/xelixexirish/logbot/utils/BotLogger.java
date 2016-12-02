@@ -1,11 +1,11 @@
-package kingdgrizzle.logbot.utils;
+package com.xelitexirish.logbot.utils;
 
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-import kingdgrizzle.logbot.handlers.FileHandler;
+import com.xelitexirish.logbot.handlers.FileHandler;
 
 public class BotLogger {
 	
