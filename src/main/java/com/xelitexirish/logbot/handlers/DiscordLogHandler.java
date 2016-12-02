@@ -21,6 +21,7 @@ import net.dv8tion.jda.core.events.message.guild.GuildMessageDeleteEvent;
 import com.xelitexirish.logbot.commands.GetCommand;
 import com.xelitexirish.logbot.utils.BotLogger;
 import com.xelitexirish.logbot.utils.GeneralUtils;
+import com.xelitexirish.logbot.handlers.VIPHandler;
 
 public class DiscordLogHandler {
 
