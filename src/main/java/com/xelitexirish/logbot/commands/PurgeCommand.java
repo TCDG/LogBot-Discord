@@ -37,7 +37,7 @@ public class PurgeCommand implements ICommand {
                 	} else {
                 		event.getAuthor().getPrivateChannel().sendMessage("Deleting the temp folder for LogBot").queue();
                 	}
-                    FileHandler.removeTempFolder();
+                    FileHandler.getTempFolder().delete();
                 }
             }
         } else {

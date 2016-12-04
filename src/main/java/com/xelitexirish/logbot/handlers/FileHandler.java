@@ -151,11 +151,6 @@ public class FileHandler {
 	        if (!doesFileExist(tempFolder)) tempFolder.mkdirs();
 	        return tempFolder;
 	    }
-	    
-	    public static boolean removeTempFolder() {
-	    	File tempFolder = new File(getBaseFileDir() + "temp/");
-	    	return tempFolder.delete();
-	    }
 
 	    public static ArrayList<File> getAllLogFiles() {
 	        return GeneralUtils.listDirectoryFiles(getBaseFileDir(), 0);

@@ -51,7 +51,7 @@ public class BotListener extends ListenerAdapter {
 				} catch (RateLimitedException e) {
 					e.printStackTrace();
 				}
-                BotLogger.debug(stringBuilder.toString());
+                //BotLogger.debug(stringBuilder.toString());
             } else {
             	if (!event.getAuthor().hasPrivateChannel()) {
             		event.getAuthor().openPrivateChannel().queue(channel -> {
@@ -108,4 +108,5 @@ public class BotListener extends ListenerAdapter {
     public void onGuildMemberNickChange(GuildMemberNickChangeEvent event) {
         DiscordLogHandler.onUsernameUpdate(event);
     }
+
 }

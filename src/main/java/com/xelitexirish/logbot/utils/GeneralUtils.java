@@ -12,7 +12,6 @@ public class GeneralUtils {
     }
 
     public static ArrayList<File> listDirectoryFiles(String dirPath, int level) {
-
         ArrayList<File> allFiles = new ArrayList<>();
 
         File dir = new File(dirPath);

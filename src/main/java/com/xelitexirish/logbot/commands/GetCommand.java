@@ -1,23 +1,27 @@
 package com.xelitexirish.logbot.commands;
 
+import java.awt.Color;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
-import net.dv8tion.jda.core.MessageBuilder;
-import net.dv8tion.jda.core.entities.TextChannel;
-import net.dv8tion.jda.core.entities.User;
-import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
-//import net.dv8tion.jda.core.exceptions.RateLimitedException;
 import com.xelitexirish.logbot.handlers.FileHandler;
 import com.xelitexirish.logbot.handlers.PermissionHandler;
 import com.xelitexirish.logbot.utils.BotLogger;
+import com.xelitexirish.logbot.utils.Constants;
 import com.xelitexirish.logbot.utils.MessageUtils;
+
+import net.dv8tion.jda.core.EmbedBuilder;
+import net.dv8tion.jda.core.MessageBuilder;
+import net.dv8tion.jda.core.entities.MessageEmbed;
+import net.dv8tion.jda.core.entities.TextChannel;
+import net.dv8tion.jda.core.entities.User;
+import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 
 public class GetCommand implements ICommand {
 
 	public static final int MAX_LENGTH = 1000;
-	private final String HELP_MSG = "Returns the log file for the specified channel or user. Usage: get `channel <mentioned channel>` or `user <mentioned user>`";
+	private final String HELP_MSG = "Returns the log file for the specified channel or user.\n Usage: get channel <mentioned channel> or get user <mentioned user / users>";
 	
 	@Override
 	public boolean called(String[] args, MessageReceivedEvent event) {
@@ -67,7 +71,6 @@ public class GetCommand implements ICommand {
             File logFile = FileHandler.getLogFile(event.getGuild(), event.getTextChannel());
             MessageBuilder messageBuilder = new MessageBuilder();
             messageBuilder.appendString("This is the log file for channel: " + event.getTextChannel().getName());
-            
             if (!event.getAuthor().hasPrivateChannel()) {
 				event.getAuthor().openPrivateChannel().queue(channel -> {
 					try {
@@ -86,10 +89,8 @@ public class GetCommand implements ICommand {
             BotLogger.info(event.getAuthor().getName() + " asked for file: " + logFile.getName() + " on server: " + event.getGuild().getName());
 
         } else if (args.length > 1) {
-
             if (args[1].equalsIgnoreCase("all")) {
                 // get channel all
-
                 File[] channelFiles = FileHandler.getAllServerLogFiles(event.getGuild());
                 if (channelFiles != null) {
                 	if (!event.getAuthor().hasPrivateChannel()) {
@@ -149,21 +150,32 @@ public class GetCommand implements ICommand {
             searchLength = Integer.parseInt(args[args.length - 1]);
         } catch (Exception e) {
         }
-        if (!event.getAuthor().hasPrivateChannel()) {
-        	event.getAuthor().openPrivateChannel().queue(channel -> {
-        		channel.sendMessage("Here are the chat logs for the user you asked for, this may take a long time:").queue();
-        	});
-    	} else {
-    		event.getAuthor().getPrivateChannel().sendMessage("Here are the chat logs for the user you asked for, this may take a long time:").queue();
-    	}
-        for (User user : logUser) {
-            File logFile = FileHandler.getTempLogFile(event, user, searchLength);
-            try {
-				event.getAuthor().getPrivateChannel().sendFile(logFile, null).queue();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-            BotLogger.info(event.getAuthor().getName() + " asked for file: " + logFile.getName() + " on the server: " + event.getGuild().getName());
+        if (searchLength == 0) {
+        	EmbedBuilder eb = new EmbedBuilder();
+        	eb.setTitle("Error while running the get command!");
+        	eb.setAuthor(Constants.EMBED_AUTHOR, Constants.EMBED_AUTHOR_URL, Constants.EMBED_AUTHOR_IMAGE);
+        	eb.setFooter(Constants.EMBED_FOOTER_NAME, Constants.EMBED_FOOTER_IMAGE);
+        	eb.setColor(Color.red);
+        	eb.setDescription("The number you have provided is too small! The number must be higher than 0!");
+        	MessageEmbed embed = eb.build();     	
+        	event.getChannel().sendMessage(embed).queue();
+        } else {
+            if (!event.getAuthor().hasPrivateChannel()) {
+            	event.getAuthor().openPrivateChannel().queue(channel -> {
+            		channel.sendMessage("Here are the chat logs for the user you asked for, this may take a long time:").queue();
+            	});
+        	} else {
+        		event.getAuthor().getPrivateChannel().sendMessage("Here are the chat logs for the user you asked for, this may take a long time:").queue();
+        	}
+            for (User user : logUser) {
+                File logFile = FileHandler.getTempLogFile(event, user, searchLength);
+                try {
+    				event.getAuthor().getPrivateChannel().sendFile(logFile, null).queue();
+    			} catch (IOException e) {
+    				e.printStackTrace();
+    			}
+                BotLogger.info(event.getAuthor().getName() + " asked for file: " + logFile.getName() + " on the server: " + event.getGuild().getName());
+            }
         }
     }
 }

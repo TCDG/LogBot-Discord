@@ -6,6 +6,8 @@ import com.xelitexirish.logbot.utils.MessageUtils;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 
+@Deprecated
+@SuppressWarnings("unused")
 public class HelpCommand implements ICommand {
 
 	private final String HELP_MSG = "Use '" + Constants.COMMAND_PREFIX + "help <command name>' to view more information about that command!";
@@ -27,9 +29,7 @@ public class HelpCommand implements ICommand {
 	}
 
 	@Override
-	public String help() {
-		return HELP_MSG;
-	}
+	public String help() {return null;}
 
 	@Override
 	public void executed(boolean success, MessageReceivedEvent event) {
@@ -37,7 +37,7 @@ public class HelpCommand implements ICommand {
 
 	@Override
 	public String getTag() {
-		return "help";
+		return "oldhelp";
 	}
 	
     private Message getHelpMessage(){
