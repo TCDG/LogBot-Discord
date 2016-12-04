@@ -23,4 +23,4 @@ notifications:
       - https://discordapp.com/api/webhooks/255082802662342656/Xb0KE7DpO7tGRNXAvZGANiO-6eLeliPUnsqiT4YYsChA9_ej9wCWDJR1W6gW12NFnt1l/github
     on_start: always
     on_success: change
-    on:failure: change
+    on_failure: change
