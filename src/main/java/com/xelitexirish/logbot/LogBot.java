@@ -13,7 +13,6 @@ import net.dv8tion.jda.core.entities.Game;
 import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.TextChannel;
 import com.xelitexirish.logbot.commands.GetCommand;
-import com.xelitexirish.logbot.commands.HelpCommand;
 import com.xelitexirish.logbot.commands.ICommand;
 import com.xelitexirish.logbot.commands.NewHelpCommand;
 import com.xelitexirish.logbot.commands.PurgeCommand;
@@ -64,7 +63,6 @@ public class LogBot {
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
-            	int i;
                 String[] messages = {"Currently logging: " + jda.getUsers().size() + " members!", "I'm currently logging " + jda.getGuilds().size() + " servers!"};
                 jda.getPresence().setGame(Game.of(messages[new Random().nextInt(messages.length)]));
             }
