@@ -39,7 +39,6 @@ public class HelpCommand implements ICommand {
 			 commands += "	" + vipCmd.getTag() + ": " + vipCmd.help() + "\n";
 			 commands += "	" + statusCmd.getTag() + ": " + statusCmd.help();
 			 embedBuilder.addField("Commands", commands, true);
-			 embedBuilder.addBlankField(false);
 			 MessageEmbed embed = embedBuilder.build();
              event.getTextChannel().sendMessage(embed).queue();
         } else {
