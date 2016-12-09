@@ -15,7 +15,7 @@ import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 
 public class StatusCommand implements ICommand {
 
-	private final String HELP_MSG = "Displays the basic status information for the bot.\nUse 'online' to set the bot's status to Online, 'offline' to set the bot's status to Invisible";
+	private final String HELP_MSG = "Displays the basic status information for the bot.\nUse '/log status online' to set the bot's status to Online, '/log status offline' to set the bot's status to Invisible";
 	
 	@Override
 	public boolean called(String[] args, MessageReceivedEvent event) {

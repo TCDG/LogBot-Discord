@@ -21,7 +21,7 @@ import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 public class GetCommand implements ICommand {
 
 	public static final int MAX_LENGTH = 1000;
-	private final String HELP_MSG = "Returns the log file for the specified channel or user.\n Usage: get channel <mentioned channel> or get user <mentioned user / users>";
+	private final String HELP_MSG = "Returns the log file for the specified channel or user.\n Usage: '/log get channel <mentioned channel>' or '/log get user <mentioned user / users>'";
 	
 	@Override
 	public boolean called(String[] args, MessageReceivedEvent event) {

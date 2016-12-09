@@ -16,7 +16,7 @@ import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 
 public class PurgeCommand implements ICommand {
 
-	private final String HELP_MSG = "Deletes the specified channel logs. Usage: 'purge channel <mentioned channels>' or 'purge temp'"; 
+	private final String HELP_MSG = "Deletes the specified channel logs. Usage: '/log purge channel <mentioned channels>' or '/log purge temp'";
 	@Override
 	public boolean called(String[] args, MessageReceivedEvent event) {
 		return true;

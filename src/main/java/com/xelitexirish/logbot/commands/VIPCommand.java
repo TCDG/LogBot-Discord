@@ -14,7 +14,7 @@ import java.awt.*;
 
 public class VIPCommand implements ICommand {
 	
-	private final String HELP_MSG = "Use 'add' or 'remove' followed by a user mention to add them to vip logging. Otherwise use their user id.";
+	private final String HELP_MSG = "Use '/log vip add' or '/log vip remove' followed by a user mention to add them to VIP logging. Otherwise use their user id.";
 
 	@Override
 	public boolean called(String[] args, MessageReceivedEvent event) {
