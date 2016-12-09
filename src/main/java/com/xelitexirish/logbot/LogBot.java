@@ -14,7 +14,7 @@ import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.TextChannel;
 import com.xelitexirish.logbot.commands.GetCommand;
 import com.xelitexirish.logbot.commands.ICommand;
-import com.xelitexirish.logbot.commands.NewHelpCommand;
+import com.xelitexirish.logbot.commands.HelpCommand;
 import com.xelitexirish.logbot.commands.PurgeCommand;
 import com.xelitexirish.logbot.commands.StatusCommand;
 import com.xelitexirish.logbot.commands.VIPCommand;
@@ -55,7 +55,7 @@ public class LogBot {
         commands.put("get", new GetCommand());
         commands.put("status", new StatusCommand());
         commands.put("purge", new PurgeCommand());
-        commands.put("help", new NewHelpCommand());
+        commands.put("help", new HelpCommand());
     }
 	
 	private static void handlePlayingMessage() {

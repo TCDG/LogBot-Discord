@@ -39,7 +39,14 @@ public class PurgeCommand implements ICommand {
                 			channel.sendMessage(embed).queue();
                 		});
                 	} else {
-                        event.getAuthor().getPrivateChannel().sendMessage("Deleting the channel file for the following channel: " + channels).queue();
+                		EmbedBuilder eb = new EmbedBuilder();
+						eb.setAuthor(Constants.EMBED_AUTHOR, Constants.EMBED_AUTHOR_URL, Constants.EMBED_AUTHOR_IMAGE);
+						eb.setFooter(Constants.EMBED_FOOTER_NAME, Constants.EMBED_FOOTER_IMAGE);
+						eb.setColor(Color.green);
+						eb.setTitle("Deleting the channel file(s)!");
+						eb.setDescription("The following channels will be deleted: " + channels);
+						MessageEmbed embed = eb.build();
+                        event.getAuthor().getPrivateChannel().sendMessage(embed).queue();
                 	}
                     FileHandler.getLogFile(event.getGuild(), channels).delete();
                 }
@@ -47,10 +54,24 @@ public class PurgeCommand implements ICommand {
                 if (PermissionHandler.isUserMaintainer(event.getAuthor())) {
                 	if (!event.getAuthor().hasPrivateChannel()) {
                 		event.getAuthor().openPrivateChannel().queue(channel -> {
-                			channel.sendMessage("Deleting the temp folder for LogBot").queue();
+                			EmbedBuilder eb = new EmbedBuilder();
+							eb.setAuthor(Constants.EMBED_AUTHOR, Constants.EMBED_AUTHOR_URL, Constants.EMBED_AUTHOR_IMAGE);
+							eb.setFooter(Constants.EMBED_FOOTER_NAME, Constants.EMBED_FOOTER_IMAGE);
+							eb.setColor(Color.green);
+							eb.setTitle("Deleting the temp folder!");
+							eb.setDescription("The temp folder will get deleted!");
+							MessageEmbed embed = eb.build();
+                			channel.sendMessage(embed).queue();
                 		});
                 	} else {
-                		event.getAuthor().getPrivateChannel().sendMessage("Deleting the temp folder for LogBot").queue();
+						EmbedBuilder eb = new EmbedBuilder();
+						eb.setAuthor(Constants.EMBED_AUTHOR, Constants.EMBED_AUTHOR_URL, Constants.EMBED_AUTHOR_IMAGE);
+						eb.setFooter(Constants.EMBED_FOOTER_NAME, Constants.EMBED_FOOTER_IMAGE);
+						eb.setColor(Color.green);
+						eb.setTitle("Deleting the temp folder!");
+						eb.setDescription("The temp folder will get deleted!");
+						MessageEmbed embed = eb.build();
+                		event.getAuthor().getPrivateChannel().sendMessage(embed).queue();
                 	}
                     //FileHandler.delete(new File(FileHandler.getBaseFileDir() + "temp"));
                 }
@@ -72,8 +93,7 @@ public class PurgeCommand implements ICommand {
 	}
 
 	@Override
-	public void executed(boolean success, MessageReceivedEvent event) {
-	}
+	public void executed(boolean success, MessageReceivedEvent event) {}
 
 	@Override
 	public String getTag() {
