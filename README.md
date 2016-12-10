@@ -5,7 +5,7 @@ Master Branch:     [![Awesome](https://travis-ci.org/TCDG/LogBot-Discord.svg?bra
 
 ## Installation
 
-1. Right now all you need to do is run the jar passing it one argument, the discord token.  It will start up and create all the files needed in its run directory.
+1. Right now all you need to do is run the jar, to which the bot will create its config.json, then stop. Insert your Bot Token and Maintainer ID, and re-run the jar! It will start up and create all the files needed in its run directory.
 
 ## Contributing
 
@@ -22,7 +22,7 @@ I created this because I wanted to test with multi-server bots but taught of a f
 ## Credits
 
 Author: XeliteXirish (www.xelitexirish.com)
-Maintainer: KingDGrizzel
+Maintainer: KingDGrizzle
 
 ## License
 Everything in this repo is BSD style license unless otherwise specified.

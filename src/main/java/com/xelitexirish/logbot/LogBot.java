@@ -13,8 +13,8 @@ import net.dv8tion.jda.core.entities.Game;
 import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.TextChannel;
 import com.xelitexirish.logbot.commands.GetCommand;
-import com.xelitexirish.logbot.commands.HelpCommand;
 import com.xelitexirish.logbot.commands.ICommand;
+import com.xelitexirish.logbot.commands.HelpCommand;
 import com.xelitexirish.logbot.commands.PurgeCommand;
 import com.xelitexirish.logbot.commands.StatusCommand;
 import com.xelitexirish.logbot.commands.VIPCommand;
@@ -41,11 +41,9 @@ public class LogBot {
 		try {
 			jda = new JDABuilder(AccountType.BOT).setToken(DISCORD_TOKEN).setAutoReconnect(true).addListener(new BotListener()).buildBlocking();
 		} catch (Exception e) {
-			//e.printStackTrace();
 			BotLogger.error("Please open config.json and insert your token and Maintainer ID and try again!");
 			System.exit(0);
 		}
-		
 		registerCommands();
         handlePlayingMessage();
         
@@ -54,10 +52,10 @@ public class LogBot {
 	
 	private static void registerCommands() {
         commands.put("vip", new VIPCommand());
-        commands.put("help", new HelpCommand());
         commands.put("get", new GetCommand());
         commands.put("status", new StatusCommand());
         commands.put("purge", new PurgeCommand());
+        commands.put("help", new HelpCommand());
     }
 	
 	private static void handlePlayingMessage() {
@@ -65,7 +63,6 @@ public class LogBot {
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
-            	int i;
                 String[] messages = {"Currently logging: " + jda.getUsers().size() + " members!", "I'm currently logging " + jda.getGuilds().size() + " servers!"};
                 jda.getPresence().setGame(Game.of(messages[new Random().nextInt(messages.length)]));
             }
@@ -75,7 +72,6 @@ public class LogBot {
 	/**
      * Helper Methods
      */
-
     public static void handleCommand(CommandParser.CommandContainer cmd) {
         if (commands.containsKey(cmd.invoke)) {
             commands.get(cmd.invoke).action(cmd.args, cmd.event);

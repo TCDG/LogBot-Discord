@@ -9,6 +9,15 @@ before_cache:
 before_install:
     - chmod +x gradlew
   
+notifications:
+  webhooks:
+    urls:
+      - https://discordapp.com/api/webhooks/255082802662342656/Xb0KE7DpO7tGRNXAvZGANiO-6eLeliPUnsqiT4YYsChA9_ej9wCWDJR1W6gW12NFnt1l
+      - https://discordapp.com/api/webhooks/255399755075682304/OwKIci7-Hc4P2j80_pYl4Gy5iF7SCZc0K0Idoy6Ebv5OtnWe7h-i1Dn766HJ4CNFAj8L
+    on_start: always
+    on_success: always
+    on_failure: always
+
 script:
      - ./gradlew fatJar
 

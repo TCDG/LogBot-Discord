@@ -1,16 +1,21 @@
 package com.xelitexirish.logbot.commands;
 
+import java.awt.Color;
+
 import com.xelitexirish.logbot.LogBot;
 import com.xelitexirish.logbot.handlers.PermissionHandler;
 import com.xelitexirish.logbot.utils.BotLogger;
 import com.xelitexirish.logbot.utils.Constants;
 import com.xelitexirish.logbot.utils.GeneralUtils;
 import com.xelitexirish.logbot.utils.MessageUtils;
+
+import net.dv8tion.jda.core.EmbedBuilder;
+import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 
 public class StatusCommand implements ICommand {
 
-	private final String HELP_MSG = "Displays the basic status information for the bot.  Use 'online' to set the bot's status to Online, 'offline' to set the bot's status to Invisible" ;
+	private final String HELP_MSG = "Displays the basic status information for the bot.\nUse '/log status online' to set the bot's status to Online, '/log status offline' to set the bot's status to Invisible";
 	
 	@Override
 	public boolean called(String[] args, MessageReceivedEvent event) {
@@ -24,10 +29,24 @@ public class StatusCommand implements ICommand {
                 LogBot.setOnlineStatus();
                 if (!event.getAuthor().hasPrivateChannel()) {
                 	event.getAuthor().openPrivateChannel().queue(channel -> {
-                		channel.sendMessage("Bot status has been changed to: " + event.getJDA().getPresence().getStatus()).queue();
+                		EmbedBuilder eb = new EmbedBuilder();
+                		eb.setAuthor(Constants.EMBED_AUTHOR, Constants.EMBED_AUTHOR_URL, Constants.EMBED_AUTHOR_IMAGE);
+                		eb.setColor(Color.green);
+                		eb.setFooter(Constants.EMBED_FOOTER_NAME, Constants.EMBED_FOOTER_IMAGE);
+                		eb.setTitle("Bot status has been changed!");
+                		eb.setDescription("Current status: " + event.getJDA().getPresence().getStatus());                		
+                		MessageEmbed embed = eb.build();                		
+                		channel.sendMessage(embed).queue();
                 	});
             	} else {
-            		event.getAuthor().getPrivateChannel().sendMessage("Bot status has been changed to: " + event.getJDA().getPresence().getStatus()).queue();
+            		EmbedBuilder eb = new EmbedBuilder();
+            		eb.setAuthor(Constants.EMBED_AUTHOR, Constants.EMBED_AUTHOR_URL, Constants.EMBED_AUTHOR_IMAGE);
+            		eb.setColor(Color.green);
+            		eb.setFooter(Constants.EMBED_FOOTER_NAME, Constants.EMBED_FOOTER_IMAGE);
+            		eb.setTitle("Bot status has been changed!");
+            		eb.setDescription("Current status: " + event.getJDA().getPresence().getStatus());                		
+            		MessageEmbed embed = eb.build();
+            		event.getAuthor().getPrivateChannel().sendMessage(embed).queue();
             	}      
                 BotLogger.info(event.getAuthor().getName() + " set the bot status to: " + event.getJDA().getPresence().getStatus());
             } else {
@@ -38,17 +57,56 @@ public class StatusCommand implements ICommand {
         		LogBot.setOfflineStatus();
         		if (!event.getAuthor().hasPrivateChannel()) {
         			event.getAuthor().openPrivateChannel().queue(channel -> {
-        				channel.sendMessage("Bot status has been changed to: " + event.getJDA().getPresence().getStatus()).queue();
+        				EmbedBuilder eb = new EmbedBuilder();
+                		eb.setAuthor(Constants.EMBED_AUTHOR, Constants.EMBED_AUTHOR_URL, Constants.EMBED_AUTHOR_IMAGE);
+                		eb.setColor(Color.gray);
+                		eb.setFooter(Constants.EMBED_FOOTER_NAME, Constants.EMBED_FOOTER_IMAGE);
+                		eb.setTitle("Bot status has been changed!");
+                		eb.setDescription("Current status: " + event.getJDA().getPresence().getStatus());                		
+                		MessageEmbed embed = eb.build();
+        				channel.sendMessage(embed).queue();
         			});
             	} else {
-            		event.getAuthor().getPrivateChannel().sendMessage("Bot status has been changed to: " + event.getJDA().getPresence().getStatus()).queue();
+    				EmbedBuilder eb = new EmbedBuilder();
+            		eb.setAuthor(Constants.EMBED_AUTHOR, Constants.EMBED_AUTHOR_URL, Constants.EMBED_AUTHOR_IMAGE);
+            		eb.setColor(Color.gray);
+            		eb.setFooter(Constants.EMBED_FOOTER_NAME, Constants.EMBED_FOOTER_IMAGE);
+            		eb.setTitle("Bot status has been changed!");
+            		eb.setDescription("Current status: " + event.getJDA().getPresence().getStatus());                		
+            		MessageEmbed embed = eb.build();
+            		event.getAuthor().getPrivateChannel().sendMessage(embed).queue();
             	}
         		BotLogger.info(event.getAuthor().getName() + " set the bot status to: " + event.getJDA().getPresence().getStatus());
         	} else {
         		MessageUtils.getNoPermissionMsg(PermissionHandler.ADMIN_PERMISSION);
         	}
         } else {
-            event.getTextChannel().sendMessage(MessageUtils.wrapStringInCodeBlock(getStatusText(event), "css")).queue();
+        	EmbedBuilder eb = new EmbedBuilder();
+        	eb.setAuthor(Constants.EMBED_AUTHOR, Constants.EMBED_AUTHOR_URL, Constants.EMBED_AUTHOR_IMAGE);
+        	eb.setColor(Color.cyan);
+        	eb.setFooter(Constants.EMBED_FOOTER_NAME, Constants.EMBED_FOOTER_IMAGE);
+        	eb.setTitle("[-!.LotBot Status.!-]");
+        	String description = "";
+        	description += "Total Users: " + event.getJDA().getUsers().size() + "\n";
+        	description += "Servers: " + LogBot.jda.getGuilds().size() + "\n";
+        	description += "Total Channels: " + LogBot.getTotalChannels() + "\n";
+        	description += "Current Time: [" + GeneralUtils.getCurrentTime() + "]";
+        	eb.setDescription(description);
+        	String guildInfo = "";
+        	guildInfo += "Guild Owner: " + event.getGuild().getOwner().getUser().getName() + "\n";
+        	guildInfo += "Guild ID: " + event.getGuild().getId();
+        	eb.addField("===================", guildInfo, false);
+        	String botInfo = "";
+        	botInfo += "Bot Version: [" + Constants.BOT_VERSION + "]\n";
+        	botInfo += "Bot Instance Maintainer: [" + event.getGuild().getMemberById(LogBot.MAINTAINER_ID).getUser().getName() + "]";
+        	eb.addField("===================", botInfo, false);
+        	String general = "";
+        	general += "Bot Developer: XeliteXirish\n";
+        	general += "Developer Website: [http://www.xelitexirish.com]\n";
+        	general += "Ported to JDA 3.0 by: KingDGrizzle";
+        	eb.addField("===================", general, false);
+        	MessageEmbed embed = eb.build();
+        	event.getTextChannel().sendMessage(embed).queue();
         }
 	}
 
@@ -65,25 +123,4 @@ public class StatusCommand implements ICommand {
 	public String getTag() {
 		return "status";
 	}
-	
-	private String getStatusText(MessageReceivedEvent event) {
-        StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("[-!.LotBot Status.!-]\n\n");
-        stringBuilder.append("Total Users: " + event.getJDA().getUsers().size() + "\n");
-        stringBuilder.append("Servers: " + LogBot.jda.getGuilds().size() + "\n");
-        stringBuilder.append("Total Channels: " + LogBot.getTotalChannels() + "\n");
-        stringBuilder.append("Current Time: [" + GeneralUtils.getCurrentTime() + "]\n");
-        stringBuilder.append("===================\n");
-        stringBuilder.append("Guild Owner: " + event.getGuild().getOwner().getUser().getName() + "\n");
-        stringBuilder.append("Guild ID: " + event.getGuild().getId() + "\n");
-        stringBuilder.append("===================\n");
-        stringBuilder.append("Bot Version: [" + Constants.BOT_VERSION + "]\n");
-        stringBuilder.append("Bot Instance Maintainer: [" + event.getGuild().getMemberById(LogBot.MAINTAINER_ID).getUser().getName() + "]\n");
-        stringBuilder.append("===================\n");
-        stringBuilder.append("Bot Developer: XeliteXirish\n");
-        stringBuilder.append("Developer Website: [www.xelitexirish.com]\n");
-        stringBuilder.append("Ported to JDA 3.0 by: KingDGrizzle");
-        return stringBuilder.toString();
-    }
-
 }

@@ -1,5 +1,6 @@
 package com.xelitexirish.logbot.handlers;
 
+import java.awt.*;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -7,6 +8,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.xelitexirish.logbot.utils.Constants;
+import net.dv8tion.jda.core.EmbedBuilder;
+import net.dv8tion.jda.core.entities.MessageEmbed;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -29,15 +33,31 @@ public class VIPHandler {
 
         if (vipUsers.contains(userInfo)) {
         	if (!author.hasPrivateChannel()) {
-        		author.openPrivateChannel().queue();
-        	}
-            author.getPrivateChannel().sendMessage("That user is already on the VIP list for this server.").queue();
+                author.openPrivateChannel().queue(channel -> {
+                    EmbedBuilder eb = new EmbedBuilder();
+                    eb.setAuthor(Constants.EMBED_AUTHOR, Constants.EMBED_AUTHOR_URL, Constants.EMBED_AUTHOR_IMAGE);
+                    eb.setFooter(Constants.EMBED_FOOTER_NAME, Constants.EMBED_FOOTER_IMAGE);
+                    eb.setColor(Color.red);
+                    eb.setTitle("Error while adding that user to the VIP list!");
+                    eb.setDescription("That user is already on the VIP list for " + guild.getName());
+                    MessageEmbed embed = eb.build();
+                    channel.sendMessage(embed).queue();
+                });
+            }
         } else {
             vipUsers.add(userInfo);
             if (!author.hasPrivateChannel()) {
-        		author.openPrivateChannel().queue();
+        		author.openPrivateChannel().queue(channel -> {
+                    EmbedBuilder eb = new EmbedBuilder();
+                    eb.setAuthor(Constants.EMBED_AUTHOR, Constants.EMBED_AUTHOR_URL, Constants.EMBED_AUTHOR_IMAGE);
+                    eb.setFooter(Constants.EMBED_FOOTER_NAME, Constants.EMBED_FOOTER_IMAGE);
+                    eb.setColor(Color.green);
+                    eb.setTitle("Added user " + user.getName() + " to the VIP list of " + guild.getName());
+                    eb.setDescription("Warning! This will only affect any FUTURE logs!");
+                    MessageEmbed embed = eb.build();
+                    channel.sendMessage(embed).queue();
+                });
         	}
-            author.getPrivateChannel().sendMessage(user.getName() + " is now added to the VIP list, this will only effect FUTURE logs.").queue();
         }
         writeVipList(guild);
     }
@@ -51,14 +71,48 @@ public class VIPHandler {
         if (vipUsers.contains(userInfo)) {
             vipUsers.remove(userInfo);
             if (!author.hasPrivateChannel()) {
-            	author.openPrivateChannel().queue();
-        	}
-            author.getPrivateChannel().sendMessage(user.getName() + " is now removed from the VIP list, this will only effect FUTURE logs.").queue();
+            	author.openPrivateChannel().queue(channel -> {
+                    EmbedBuilder eb = new EmbedBuilder();
+                    eb.setAuthor(Constants.EMBED_AUTHOR, Constants.EMBED_AUTHOR_URL, Constants.EMBED_AUTHOR_IMAGE);
+                    eb.setFooter(Constants.EMBED_FOOTER_NAME, Constants.EMBED_FOOTER_IMAGE);
+                    eb.setColor(Color.red);
+                    eb.setTitle("Removed user " + user.getName() + " from the VIP list for " + guild.getName());
+                    eb.setDescription("Warning! This will only affect any FUTURE logs!");
+                    MessageEmbed embed = eb.build();
+                    channel.sendMessage(embed).queue();
+                });
+        	} else {
+                EmbedBuilder eb = new EmbedBuilder();
+                eb.setAuthor(Constants.EMBED_AUTHOR, Constants.EMBED_AUTHOR_URL, Constants.EMBED_AUTHOR_IMAGE);
+                eb.setFooter(Constants.EMBED_FOOTER_NAME, Constants.EMBED_FOOTER_IMAGE);
+                eb.setColor(Color.red);
+                eb.setTitle("Removed user " + user.getName() + " from the VIP list for " + guild.getName());
+                eb.setDescription("Warning! This will only affect any FUTURE logs!");
+                MessageEmbed embed = eb.build();
+                author.getPrivateChannel().sendMessage(embed).queue();
+            }
         } else {
         	if (!author.hasPrivateChannel()) {
-        		author.openPrivateChannel().queue();
-        	}
-            author.getPrivateChannel().sendMessage("That user is currently not on the VIP list.").queue();
+        		author.openPrivateChannel().queue(channel -> {
+                    EmbedBuilder eb = new EmbedBuilder();
+                    eb.setAuthor(Constants.EMBED_AUTHOR, Constants.EMBED_AUTHOR_URL, Constants.EMBED_AUTHOR_IMAGE);
+                    eb.setFooter(Constants.EMBED_FOOTER_NAME, Constants.EMBED_FOOTER_IMAGE);
+                    eb.setColor(Color.red);
+                    eb.setTitle("Error while trying to remove " + user.getName() + " from the VIP list of " + guild.getName());
+                    eb.setDescription("That user is currently not in the VIP list!");
+                    MessageEmbed embed = eb.build();
+                    channel.sendMessage(embed).queue();
+                });
+        	} else {
+                EmbedBuilder eb = new EmbedBuilder();
+                eb.setAuthor(Constants.EMBED_AUTHOR, Constants.EMBED_AUTHOR_URL, Constants.EMBED_AUTHOR_IMAGE);
+                eb.setFooter(Constants.EMBED_FOOTER_NAME, Constants.EMBED_FOOTER_IMAGE);
+                eb.setColor(Color.red);
+                eb.setTitle("Error while trying to remove " + user.getName() + " from the VIP list of " + guild.getName());
+                eb.setDescription("That user is currently not in the VIP list!");
+                MessageEmbed embed = eb.build();
+                author.getPrivateChannel().sendMessage(embed).queue();
+            }
         }
         writeVipList(guild);
     }

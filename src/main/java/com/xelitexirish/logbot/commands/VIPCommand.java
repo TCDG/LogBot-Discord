@@ -5,12 +5,16 @@ import com.xelitexirish.logbot.handlers.VIPHandler;
 import com.xelitexirish.logbot.utils.BotLogger;
 import com.xelitexirish.logbot.utils.Constants;
 import com.xelitexirish.logbot.utils.MessageUtils;
+import net.dv8tion.jda.core.EmbedBuilder;
+import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 
+import java.awt.*;
+
 public class VIPCommand implements ICommand {
 	
-	private final String HELP_MSG = "Use 'add' or 'remove' followed by a user mention to add them to vip logging. Otherwise use their user id.";
+	private final String HELP_MSG = "Use '/log vip add' or '/log vip remove' followed by a user mention to add them to VIP logging. Otherwise use their user id.";
 
 	@Override
 	public boolean called(String[] args, MessageReceivedEvent event) {
@@ -33,10 +37,24 @@ public class VIPCommand implements ICommand {
                         } else {
                         	if (!event.getAuthor().hasPrivateChannel()) {
                         		event.getAuthor().openPrivateChannel().queue(channel -> {
-                        			channel.sendMessage("No user found with id: " + args[1] + " on server: " + event.getGuild().getName()).queue();
+									EmbedBuilder eb = new EmbedBuilder();
+									eb.setAuthor(Constants.EMBED_AUTHOR, Constants.EMBED_AUTHOR_URL, Constants.EMBED_AUTHOR_IMAGE);
+									eb.setFooter(Constants.EMBED_FOOTER_NAME, Constants.EMBED_FOOTER_IMAGE);
+									eb.setColor(Color.red);
+									eb.setTitle("Error while searching for that user ID!");
+									eb.setDescription("No user found with ID: " + args[1] + " on server: " + event.getGuild().getName());
+									MessageEmbed embed = eb.build();
+                        			channel.sendMessage(embed).queue();
                         		});
                         	} else {
-                        		 event.getAuthor().getPrivateChannel().sendMessage("No user found with id: " + args[1] + " on server: " + event.getGuild().getName()).queue();
+								EmbedBuilder eb = new EmbedBuilder();
+								eb.setAuthor(Constants.EMBED_AUTHOR, Constants.EMBED_AUTHOR_URL, Constants.EMBED_AUTHOR_IMAGE);
+								eb.setFooter(Constants.EMBED_FOOTER_NAME, Constants.EMBED_FOOTER_IMAGE);
+								eb.setColor(Color.red);
+								eb.setTitle("Error while searching for that user ID!");
+								eb.setDescription("No user found with ID: " + args[1] + " on server: " + event.getGuild().getName());
+								MessageEmbed embed = eb.build();
+								event.getAuthor().getPrivateChannel().sendMessage(embed).queue();
                         	}
                         }
                     }
@@ -54,10 +72,24 @@ public class VIPCommand implements ICommand {
                         } else {
                         	if (!event.getAuthor().hasPrivateChannel()) {
                         		event.getAuthor().openPrivateChannel().queue(channel -> {
-                        			channel.sendMessage("No user found with id: " + args[1] + " on server: " + event.getGuild().getName()).queue();
+									EmbedBuilder eb = new EmbedBuilder();
+									eb.setAuthor(Constants.EMBED_AUTHOR, Constants.EMBED_AUTHOR_URL, Constants.EMBED_AUTHOR_IMAGE);
+									eb.setFooter(Constants.EMBED_FOOTER_NAME, Constants.EMBED_FOOTER_IMAGE);
+									eb.setColor(Color.red);
+									eb.setTitle("Error while searching for that user ID!");
+									eb.setDescription("No user found with ID: " + args[1] + " on server: " + event.getGuild().getName());
+									MessageEmbed embed = eb.build();
+                        			channel.sendMessage(embed).queue();
                         		});
                         	} else {
-                        		 event.getAuthor().getPrivateChannel().sendMessage("No user found with id: " + args[1] + " on server: " + event.getGuild().getName()).queue();
+								EmbedBuilder eb = new EmbedBuilder();
+								eb.setAuthor(Constants.EMBED_AUTHOR, Constants.EMBED_AUTHOR_URL, Constants.EMBED_AUTHOR_IMAGE);
+								eb.setFooter(Constants.EMBED_FOOTER_NAME, Constants.EMBED_FOOTER_IMAGE);
+								eb.setColor(Color.red);
+								eb.setTitle("Error while searching for that user ID!");
+								eb.setDescription("No user found with ID: " + args[1] + " on server: " + event.getGuild().getName());
+								MessageEmbed embed = eb.build();
+								event.getAuthor().getPrivateChannel().sendMessage(embed).queue();
                         	}
                         }
                     }
