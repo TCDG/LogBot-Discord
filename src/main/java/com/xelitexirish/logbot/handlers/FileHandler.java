@@ -141,7 +141,7 @@ public class FileHandler {
 		return tempFolder;
 	}
 
-	public static void delete(File file) {
+	public void delete(File file) {
 		if (file.isDirectory()) {
 			Arrays.stream(file.listFiles()).forEach(this::delete);
 		}

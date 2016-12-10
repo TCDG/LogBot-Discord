@@ -3,7 +3,6 @@ package com.xelitexirish.logbot.commands;
 import java.awt.Color;
 import java.io.File;
 
-import com.sun.deploy.util.GeneralUtil;
 import com.xelitexirish.logbot.handlers.FileHandler;
 import com.xelitexirish.logbot.handlers.PermissionHandler;
 import com.xelitexirish.logbot.utils.Constants;
@@ -15,10 +14,12 @@ import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 
-
 public class PurgeCommand implements ICommand {
 
 	private final String HELP_MSG = "Deletes the specified channel logs. Usage: '/log purge channel <mentioned channels>' or '/log purge temp'";
+
+	FileHandler fileHandler = new FileHandler();
+
 	@Override
 	public boolean called(String[] args, MessageReceivedEvent event) {
 		return true;
@@ -75,7 +76,7 @@ public class PurgeCommand implements ICommand {
 						MessageEmbed embed = eb.build();
                 		event.getAuthor().getPrivateChannel().sendMessage(embed).queue();
                 	}
-					FileHandler.delete(new File(FileHandler.getBaseFileDir() + "temp/"));
+					fileHandler.delete(new File(FileHandler.getBaseFileDir() + "temp/"));
                 }
             }
         } else {
