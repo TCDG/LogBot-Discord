@@ -3,9 +3,11 @@ package com.xelitexirish.logbot.commands;
 import java.awt.Color;
 import java.io.File;
 
+import com.sun.deploy.util.GeneralUtil;
 import com.xelitexirish.logbot.handlers.FileHandler;
 import com.xelitexirish.logbot.handlers.PermissionHandler;
 import com.xelitexirish.logbot.utils.Constants;
+import com.xelitexirish.logbot.utils.GeneralUtils;
 import com.xelitexirish.logbot.utils.MessageUtils;
 
 import net.dv8tion.jda.core.EmbedBuilder;
@@ -73,7 +75,7 @@ public class PurgeCommand implements ICommand {
 						MessageEmbed embed = eb.build();
                 		event.getAuthor().getPrivateChannel().sendMessage(embed).queue();
                 	}
-                    //FileHandler.delete(new File(FileHandler.getBaseFileDir() + "temp"));
+					FileHandler.delete(new File(FileHandler.getBaseFileDir() + "temp/"));
                 }
             }
         } else {

@@ -72,7 +72,6 @@ public class LogBot {
 	/**
      * Helper Methods
      */
-
     public static void handleCommand(CommandParser.CommandContainer cmd) {
         if (commands.containsKey(cmd.invoke)) {
             commands.get(cmd.invoke).action(cmd.args, cmd.event);

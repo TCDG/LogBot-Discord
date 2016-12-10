@@ -35,8 +35,8 @@ public class MessageUtils {
 
     public static Message wrapStringInCodeBlock(String message, String language) {
        MessageBuilder messageBuilder = new MessageBuilder();
-        messageBuilder.appendCodeBlock(message, language);
-        return messageBuilder.build();
+       messageBuilder.appendCodeBlock(message, language);
+       return messageBuilder.build();
     }
     
     public static Message usefulError(User user, String message) {
